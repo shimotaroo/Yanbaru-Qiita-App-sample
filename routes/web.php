@@ -11,6 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// トップページ
+Route::get('/', 'ArticleController@index')->name('index');
+
+// CRUD処理用のルーティング
+Route::resource('articles', 'ArticleController', ['only' => ['create', 'edit', 'store', 'show', 'update', 'destroy']]);
+
+// 認証系のルーティング
+Auth::routes();
