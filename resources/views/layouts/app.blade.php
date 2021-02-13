@@ -15,14 +15,27 @@
     <div id="app">
         <nav class="navbar navbar-expand navbar-dark bg-success text-white mb-5">
             <a class="navbar-brand" href="{{ route('index')}}">やんばるQiita</a>
-            <ul class="navbar-nav ml-auto mr-3">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('login') }}">ログイン</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('register') }}">ユーザー登録</a>
-                </li>
-            </ul>
+            @guest
+                <ul class="navbar-nav ml-auto mr-3">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('login') }}">ログイン</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('register') }}">ユーザー登録</a>
+                    </li>
+                </ul>
+            @endguest
+
+            @auth
+                <ul class="navbar-nav ml-auto mr-3">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('login') }}">投稿する</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('register') }}">マイページ</a>
+                    </li>
+                </ul>
+            @endauth
         </nav>
 
         @yield('content')
