@@ -12,7 +12,7 @@
                         @csrf
 
                         <div class="form-group row">
-                            <p class="col-md-12 text-center text-danger">(※)は入力必須です。</p>
+                            <p class="col-md-12 text-center"><span class="text-danger">(※)</span>は入力必須項目です。</p>
                         </div>
 
                         <div class="form-group row">
@@ -20,7 +20,7 @@
 
                             <div class="col-md-6">
                                 <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus placeholder="やんばる太朗">
-
+                                <small>Slack名を入力してください。</small>
                                 @error('name')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -34,7 +34,7 @@
 
                             <div class="col-md-6">
                                 <input id="email" type="number" class="form-control @error('term') is-invalid @enderror" name="term" value="{{ old('term') }}" required autocomplete="term" placeholder="3" min="1">
-
+                                <small>半角数字2桁以内で入力してください。</small>
                                 @error('term')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -49,7 +49,7 @@
 
                             <div class="col-md-6">
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" placeholder="****@mail.com">
-
+                                <small>今回は仮のメールアドレスを入力ください。</small>
                                 @error('email')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -63,6 +63,7 @@
 
                             <div class="col-md-6">
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password" placeholder="********">
+                                <small>半角英数字8文字以上を入力してください。</small>
 
                                 @error('password')
                                     <span class="invalid-feedback" role="alert">
@@ -77,6 +78,7 @@
 
                             <div class="col-md-6">
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password" placeholder="********">
+                                <small>確認のためパスワードを再度入力してください。</small>
                             </div>
                         </div>
 
