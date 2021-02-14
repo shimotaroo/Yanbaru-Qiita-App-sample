@@ -3,5 +3,8 @@
     "Term": "期生",
     "Title": "タイトル",
     "URL": "URL",
-    "DateTime": "投稿日時"
+    "DateTime": "投稿日時",
+    "Email": "メールアドレス",
+    "Password": "パスワード",
+    "Password Confirm": "パスワード（確認）"
 }
