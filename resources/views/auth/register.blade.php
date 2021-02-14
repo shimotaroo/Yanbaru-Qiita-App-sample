@@ -16,7 +16,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('名前') }}<span class="text-danger">(※)</span></label>
+                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}<span class="text-danger">(※)</span></label>
 
                             <div class="col-md-6">
                                 <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus placeholder="やんばる太朗">
@@ -30,7 +30,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('期生') }}<span class="text-danger">(※)</span></label>
+                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('Term') }}<span class="text-danger">(※)</span></label>
 
                             <div class="col-md-6">
                                 <input id="email" type="number" class="form-control @error('term') is-invalid @enderror" name="term" value="{{ old('term') }}" required autocomplete="term" placeholder="3" min="1">
@@ -45,7 +45,7 @@
 
 
                         <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('Eメール') }}<span class="text-danger">(※)</span></label>
+                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('Email') }}<span class="text-danger">(※)</span></label>
 
                             <div class="col-md-6">
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" placeholder="****@mail.com">
@@ -59,7 +59,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('パスワード') }}<span class="text-danger">(※)</span></label>
+                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}<span class="text-danger">(※)</span></label>
 
                             <div class="col-md-6">
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password" placeholder="********">
@@ -74,7 +74,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('パスワード（確認）') }}<span class="text-danger">(※)</span></label>
+                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Password Confirm') }}<span class="text-danger">(※)</span></label>
 
                             <div class="col-md-6">
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password" placeholder="********">
