@@ -30,7 +30,7 @@
             @auth
                 <ul class="navbar-nav ml-auto mr-3">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('login') }}"><i class="fas fa-pen mr-2"></i>投稿する</a>
+                        <a class="nav-link" href="{{ route('articles.create') }}"><i class="fas fa-pen mr-2"></i>投稿する</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('register') }}">マイページ</a>
