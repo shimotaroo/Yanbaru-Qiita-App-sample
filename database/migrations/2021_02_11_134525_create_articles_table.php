@@ -21,7 +21,7 @@ class CreateArticlesTable extends Migration
             $table->string('summary')->comment('記事概要');
             $table->string('url')->comment('記事URL');
             $table->timestamps();
-            $table->boolean('delete_flag')->comment('削除フラグ（0:存在、1:削除済');
+            $table->boolean('delete_flag')->default(0)->comment('削除フラグ（0:存在、1:削除済');
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');

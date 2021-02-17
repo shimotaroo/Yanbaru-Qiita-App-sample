@@ -6,6 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Article extends Model
 {
+    protected $fillable = [
+        'title',
+        'category_id',
+        'summary',
+        'url',
+    ];
+    
     /**
      * 記事を投稿したユーザーを取得する
      */

@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Article;
+use App\Category;
+use App\Http\Requests\ArticleRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ArticleController extends Controller
 {
@@ -25,7 +28,9 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        return view('articles.create');
+        $category = new Category();
+        $categoryForRadioButton = $category->getAll();
+        return view('articles.create', compact('categoryForRadioButton'));
     }
 
     /**
@@ -34,9 +39,14 @@ class ArticleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ArticleRequest $request)
     {
-        //
+        $article = new Article();
+        $article->fill($request->all());
+        $article->user_id = Auth::user()->id;
+        $article->save();
+
+        return redirect()->route('index')->with('flashMsg',  '投稿が完了しました');
     }
 
     /**
