@@ -6,5 +6,7 @@
     "DateTime": "投稿日時",
     "Email": "メールアドレス",
     "Password": "パスワード",
-    "Password Confirm": "パスワード（確認）"
+    "Password Confirm": "パスワード（確認）",
+    "Summary": "記事概要",
+    "Category": "カテゴリー"
 }

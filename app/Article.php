@@ -20,4 +20,12 @@ class Article extends Model
     {
         return $this->belongsTo('App\User');
     }
+
+    /**
+     * 記事のカテゴリー情報を取得する
+     */
+    public function category()
+    {
+        return $this->belongsTo('App\Category');
+    }
 }

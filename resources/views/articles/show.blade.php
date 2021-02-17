@@ -1,56 +1,58 @@
 @extends('layouts.app')
 
-@section('title', '記事一覧')
+@section('title', '記事詳細')
 
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            
-            {{-- フラッシュメッセージ --}}
-            @if (session('flashMsg'))
-                <div class="text-center col-md-6 mx-auto mb-4 py-2 bg-success text-white flash_message">
-                    {{ session('flashMsg') }}
+            <div class="card mb-5">
+                <div class="card-header">
+                    <h2 class="text-center my-2"><i class="fas fa-file-code mr-2"></i>記事詳細</h2>
                 </div>
-            @endif
-            {{-- フラッシュメッセージ --}}
 
-            @foreach ($articles as $article)
-                <div class="card mb-5">
-                    <div class="card-header"><i class="fas fa-user-edit mr-3"></i>{{ __('DateTime') }}：{{ $article->created_at->format('Y-m-d') }}</div>
+                <div class="card-body col-md-8 mx-auto">
                     <div class="card-body">
-                        <div class="row">
+                        <div class="row mb-2">
                             <p class="col-md-4 text-md-right">{{ __('Name') }}</p>
                             <p class="col-md-6">
                                 {{ $article->user->name }}
                             </p>
                         </div>
-                        <div class="row">
+                        <div class="row mb-2">
                             <p class="col-md-4 text-md-right">{{ __('Term') }}</p>
                             <p class="col-md-6">
                                 {{ $article->user->term }}期生
                             </p>
                         </div>
-                        <div class="row">
+                        <div class="row mb-2">
                             <p class="col-md-4 text-md-right">{{ __('Title') }}</p>
                             <p class="col-md-6">
                                 {{ $article->title }}
                             </p>
                         </div>
-                        <div class="row">
+                        <div class="row mb-2">
+                            <p class="col-md-4 text-md-right">{{ __('Category') }}</p>
+                            <p class="col-md-6">
+                                {{ $article->category->name }}
+                            </p>
+                        </div>
+                        <div class="row mb-2">
+                            <p class="col-md-4 text-md-right">{{ __('Summary') }}</p>
+                            <p class="col-md-6">
+                                {{ $article->summary }}
+                            </p>
+                        </div>
+                        <div class="row mb-2">
                             <p class="col-md-4 text-md-right">{{ __('URL') }}</p>
                             <p class="col-md-6">
                                 <a href="{{ $article->url }}" target="_blank">{{ $article->url }}</a>
                             </p>
                         </div>
-                        <form method="GET" action="{{ route('index') }}">
-                            <div class="row">
-                                <a href="{{ route('articles.show', $article->id) }}" class="btn btn-success text-white col-md-4 mx-auto">詳細を見る</a>
-                            </div>
-                        </form>
+                        <a class='btn btn-block btn-secondary text-white col-md-4 mx-auto py-2  mb-4' href="{{ route('index') }}">戻る</a>
                     </div>
                 </div>
-            @endforeach
+            </div>
         </div>
     </div>
 </div>
