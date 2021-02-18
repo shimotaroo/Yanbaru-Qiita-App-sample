@@ -13,29 +13,52 @@
                 <form action="{{ route('articles.store') }}" method="POST">
                     @csrf
                     <div class="card-body col-md-8 mx-auto">
+                        <div class="form-group row">
+                            <p class="col-md-12 text-center"><span class="text-danger">(※)</span>は入力必須項目です。</p>
+                        </div>                            
                         <div class="form-group mb-4">
-                            <label for="title">記事タイトル</label>
-                            <input type="text" class="form-control" id="title" name="title" placeholder="記事タイトル" value="{{ old('title') }}" autofocus required>
+                            <label for="title">記事タイトル<span class="text-danger">(※)</span></label>
+                            <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" placeholder="記事タイトル" value="{{ old('title') }}" autofocus required>
                             <small id="url" class="form-text text-muted">30文字以内で入力してください。</small>
+                            @error('title')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                         <div class="form-group mb-4">
-                            <p for="exampleInputPassword1">カテゴリー</p>
+                            <p for="exampleInputPassword1">カテゴリー<span class="text-danger">(※)</span></p>
                             @foreach ($categoryForRadioButton as $index => $categoryName)
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="category_id" id="category{{ $index }}" value="{{ $index }}">
+                                <div class="form-check form-check-inline @error('category_id') is-invalid @enderror">
+                                    <input class="form-check-input @error('category_id') is-invalid @enderror" type="radio" name="category_id" id="category{{ $index }}" value="{{ $index }}" {{ old('category_id') == $index ? 'checked': '' }}>
                                     <label class="form-check-label" for="category{{ $index }}">{{ $categoryName }}</label>
                                 </div>                        
                             @endforeach
+                            @error('category_id')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                         <div class="form-group mb-4">
-                            <label for="summary">記事概要</label>
-                            <textarea class="form-control" id="summary" name="summary" placeholder="記事概要" rows="6" required>{{ old('summary') }}</textarea>
+                            <label for="summary">記事概要<span class="text-danger">(※)</span></label>
+                            <textarea class="form-control @error('summary') is-invalid @enderror" id="summary" name="summary" placeholder="記事概要" rows="6" required>{{ old('summary') }}</textarea>
                             <small id="url" class="form-text text-muted">30文字以上で入力してください。</small>
+                            @error('summary')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                         <div class="form-group mb-4">
-                            <label for="url">記事URL</label>
-                            <input type="url" class="form-control" id="url" name="url" placeholder="記事URL" value="{{ old('url') }}" required>
+                            <label for="url">記事URL<span class="text-danger">(※)</span></label>
+                            <input type="url" class="form-control @error('url') is-invalid @enderror" id="url" name="url" placeholder="記事URL" value="{{ old('url') }}" required>
                             <small id="url" class="form-text text-muted">Qiitaの記事のURLを入力してください。</small>
+                            @error('url')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>                        
                         <button type="submit" class="btn btn-block btn-success col-md-4 mx-auto py-2 mt-5">
                             投稿する
