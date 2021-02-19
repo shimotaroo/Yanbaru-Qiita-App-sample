@@ -17,7 +17,14 @@
 
             @foreach ($articles as $article)
                 <div class="card mb-5">
-                    <div class="card-header"><i class="fas fa-user-edit mr-3"></i>{{ __('DateTime') }}：{{ $article->created_at->format('Y-m-d') }}</div>
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <div>
+                            <i class="fas fa-user-edit mr-3"></i>{{ __('DateTime') }}：{{ $article->created_at->format('Y-m-d') }}
+                        </div>
+                        @if ($article->user_id === Auth::id())
+                            <a  href="{{ route('articles.edit', $article) }}" class="btn btn-secondary rounded-pill ml-auto mr-2">編集</a>                    
+                        @endif
+                    </div>
                     <div class="card-body">
                         <div class="row">
                             <p class="col-md-4 text-md-right">{{ __('Name') }}</p>
