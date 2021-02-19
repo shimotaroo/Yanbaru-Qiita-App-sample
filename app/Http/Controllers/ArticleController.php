@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Article;
 use App\Category;
 use App\Http\Requests\ArticleRequest;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -43,10 +44,10 @@ class ArticleController extends Controller
     {
         $article = new Article();
         $article->fill($request->all());
-        $article->user_id = Auth::user()->id;
+        $article->user_id = Auth::id();
         $article->save();
 
-        return redirect()->route('index')->with('flashMsg',  '投稿が完了しました');
+        return redirect()->route('index')->with('flashMsg',  '記事を投稿しました');
     }
 
     /**
@@ -63,25 +64,32 @@ class ArticleController extends Controller
 
     /**
      * Show the form for editing the specified resource.
+     * パラメータにArticleモデルのインスタンスを渡すことで自動的にidをパラメータにセットしてくれる
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Article $article)
     {
-        //
+        $category = new Category();
+        $categoryForRadioButton = $category->getAll();
+
+        return view('articles.edit', compact(['article', 'categoryForRadioButton']));
     }
 
     /**
      * Update the specified resource in storage.
+     * パラメータにArticleモデルのインスタンスを渡すことで自動的にidをパラメータにセットしてくれる
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ArticleRequest $request, Article $article)
     {
-        //
+        $article->fill($request->all())->save();
+
+        return redirect()->route('index')->with('flashMsg',  '記事を編集しました');
     }
 
     /**
