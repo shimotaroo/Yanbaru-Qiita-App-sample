@@ -49,7 +49,12 @@
                                 <a href="{{ $article->url }}" target="_blank">{{ $article->url }}</a>
                             </p>
                         </div>
-                        <a class='btn btn-block btn-secondary text-white col-md-4 mx-auto py-2  mb-4' href="{{ route('index') }}">戻る</a>
+                        <div class="d-flex justify-content-center">
+                            <a href="{{ route('index') }}" class='btn btn-secondary text-white col-md-3 py-2 mx-1 mb-4'>戻る</a>
+                            @if ($article->user_id === Auth::id())
+                                <a  href="{{ route('articles.edit', $article) }}" class="btn btn-success text-white col-md-3 py-2 mx-1 mb-4">編集</a>                    
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>
