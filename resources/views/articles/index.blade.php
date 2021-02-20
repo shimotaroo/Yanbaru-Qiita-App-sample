@@ -21,9 +21,16 @@
                         <div>
                             <i class="fas fa-user-edit mr-3"></i>{{ __('DateTime') }}：{{ $article->created_at->format('Y-m-d') }}
                         </div>
-                        @if ($article->user_id === Auth::id())
-                            <a  href="{{ route('articles.edit', $article) }}" class="btn btn-secondary rounded-pill ml-auto mr-2">編集</a>                    
-                        @endif
+                        <div class="d-flex justify-content-around">
+                            @if ($article->user_id === Auth::id())
+                                <a  href="{{ route('articles.edit', $article) }}" class="btn btn-secondary rounded-pill ml-auto mr-2">編集</a>
+                                <form action="{{ route('articles.destroy', $article) }}" method="POST" id="delete-form">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="button" class="btn btn-danger rounded-pill ml-auto" id="delete-btn">削除</button>                                
+                                </form>
+                            @endif
+                        </div>
                     </div>
                     <div class="card-body">
                         <div class="row">

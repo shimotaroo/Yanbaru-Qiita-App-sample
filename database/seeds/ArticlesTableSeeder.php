@@ -21,7 +21,7 @@ class ArticlesTableSeeder extends Seeder
                 'url' => 'https://qiita.com/shimotaroo/items/6a909797e0139517b1bd',
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
-                'delete_flag' => 0
+                'deleted_at' => NULL
             ],
             [
                 'user_id' => '2',
@@ -31,7 +31,7 @@ class ArticlesTableSeeder extends Seeder
                 'url' => 'https://qiita.com/ryota100100/items/6b48f38b34d1cebaac0a',
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
-                'delete_flag' => 0
+                'deleted_at' => NULL
             ],
             [
                 'user_id' => '3',
@@ -41,7 +41,7 @@ class ArticlesTableSeeder extends Seeder
                 'url' => 'https://qiita.com/ziko7110/items/fec679e282209aed420e',
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
-                'delete_flag' => 0
+                'deleted_at' => NULL
             ],
         ]);
 
