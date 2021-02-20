@@ -32,6 +32,11 @@ class UserRequest extends FormRequest
         ];
     }
 
+    /**
+     * バリデーションメッセージの日本語化
+     *
+     * @return array
+     */
     public function attributes()
     {
         return [
