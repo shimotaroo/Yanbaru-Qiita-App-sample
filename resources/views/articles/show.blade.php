@@ -52,7 +52,12 @@
                         <div class="d-flex justify-content-center">
                             <a href="{{ route('index') }}" class='btn btn-secondary text-white col-md-3 py-2 mx-1 mb-4'>戻る</a>
                             @if ($article->user_id === Auth::id())
-                                <a  href="{{ route('articles.edit', $article) }}" class="btn btn-success text-white col-md-3 py-2 mx-1 mb-4">編集</a>                    
+                                <a  href="{{ route('articles.edit', $article) }}" class="btn btn-success text-white col-md-3 py-2 mx-1 mb-4">編集</a>
+                                <form action="{{ route('articles.destroy', $article) }}" method="POST" class="col-md-3 p-0 row mx-1" id="delete-form">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="button" class="btn btn-danger text-white col-12 py-2 mb-4" id="delete-btn">削除</button>                                
+                                </form>              
                             @endif
                         </div>
                     </div>
