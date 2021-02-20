@@ -33,7 +33,7 @@
                         <a class="nav-link" href="{{ route('articles.create') }}"><i class="fas fa-pen mr-2"></i>投稿する</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('register') }}">マイページ</a>
+                        <a class="nav-link" href="{{ route('user.show', Auth::user()) }}">マイページ</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="javascript:logout.submit()">ログアウト</a>

@@ -21,3 +21,6 @@ Route::resource('articles', 'ArticleController')->only(['show']);
 
 // 認証系のルーティング
 Auth::routes();
+
+// ユーザー用CRUD処理用のルーティング
+Route::resource('user', 'UserController')->only(['edit', 'update', 'show'])->middleware('auth');
