@@ -41,7 +41,7 @@ class UserController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * マイページ画面表示
      *
      * @param  App\User  $user
      * @return \Illuminate\Http\Response
@@ -53,7 +53,7 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * ユーザー情報編集画面表示
      *
      * @param  App\User  $user
      * @return \Illuminate\Http\Response
@@ -64,7 +64,7 @@ class UserController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * ユーザー情報編集処理
      *
      * @param  App\Http\Requests\UserRequest  $request
      * @param  App\User  $user

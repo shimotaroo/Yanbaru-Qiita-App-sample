@@ -8,14 +8,15 @@ class Category extends Model
 {
     /**
      * ラジオボタン用の配列データを作成
+     * : arrayで戻り値の型宣言
      *
      * @return array
      */
-
-    public function getAll() :array
+    public function getAll(): array
     {
-        $allCategories = $this->all();
         $categoryForRadioButton = [];
+
+        $allCategories = $this->all();
         foreach ($allCategories as $index => $category) {
             $categoryForRadioButton[$index + 1] = $category->name;
         }

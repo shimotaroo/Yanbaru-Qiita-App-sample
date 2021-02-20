@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 class ArticleController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * 記事一覧画面表示
      *
      * @return \Illuminate\Http\Response
      */
@@ -23,7 +23,7 @@ class ArticleController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * 記事投稿画面表示
      *
      * @return \Illuminate\Http\Response
      */
@@ -35,9 +35,9 @@ class ArticleController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * 記事投稿（新規登録）処理
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\ArticleRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(ArticleRequest $request)
@@ -51,7 +51,7 @@ class ArticleController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * 記事詳細画面表示
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -63,10 +63,10 @@ class ArticleController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * 記事編集画面表示
      * パラメータにArticleモデルのインスタンスを渡すことで自動的にidをパラメータにセットしてくれる
      *
-     * @param  int  $id
+     * @param  App\Article  $article
      * @return \Illuminate\Http\Response
      */
     public function edit(Article $article)
@@ -78,11 +78,11 @@ class ArticleController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * 記事編集処理
      * パラメータにArticleモデルのインスタンスを渡すことで自動的にidをパラメータにセットしてくれる
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  App\Http\Requests\ArticleRequest  $request
+     * @param  App\Article  $article
      * @return \Illuminate\Http\Response
      */
     public function update(ArticleRequest $request, Article $article)
@@ -93,7 +93,7 @@ class ArticleController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * 記事削除処理
      *
      * @param  App\Article  $article
      * @return \Illuminate\Http\Response
