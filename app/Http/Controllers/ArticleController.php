@@ -12,6 +12,15 @@ use Illuminate\Support\Facades\Auth;
 class ArticleController extends Controller
 {
     /**
+     * コンストラクタ定義
+     * ポリシーを使用できるようにする
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(Article::class, 'article');
+    }
+
+    /**
      * 記事一覧画面表示
      *
      * @return \Illuminate\Http\Response
