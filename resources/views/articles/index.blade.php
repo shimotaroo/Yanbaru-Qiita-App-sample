@@ -65,6 +65,9 @@
                     </div>
                 </div>
             @endforeach
+            <div class="col-md-4 mx-auto d-flex justify-content-center">
+                {{ $articles->links() }}
+            </div>
         </div>
     </div>
 </div>
