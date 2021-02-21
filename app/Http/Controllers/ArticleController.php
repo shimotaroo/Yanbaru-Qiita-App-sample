@@ -62,12 +62,11 @@ class ArticleController extends Controller
     /**
      * 記事詳細画面表示
      *
-     * @param  int  $id
+     * @param  App\Article  $article
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Article $article)
     {
-        $article = Article::with(['user', 'category'])->find($id);
         return view('articles.show', compact('article'));
     }
 

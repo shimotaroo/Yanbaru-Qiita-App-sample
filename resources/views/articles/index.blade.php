@@ -59,7 +59,7 @@
                         </div>
                         <form method="GET" action="{{ route('index') }}">
                             <div class="row">
-                                <a href="{{ route('articles.show', $article->id) }}" class="btn btn-success text-white col-md-4 mx-auto">詳細を見る</a>
+                                <a href="{{ route('articles.show', $article) }}" class="btn btn-success text-white col-md-4 mx-auto">詳細を見る</a>
                             </div>
                         </form>
                     </div>
