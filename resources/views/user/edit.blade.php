@@ -5,16 +5,7 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-
-            {{-- フラッシュメッセージ --}}
-            @if (session('flashMsg'))
-                <div class="text-center col-md-6 mx-auto mb-4 py-2 bg-success text-white flash_message">
-                    {{ session('flashMsg') }}
-                </div>
-            @endif
-            {{-- フラッシュメッセージ --}}
-            
+        <div class="col-md-8">            
             <div class="card mb-5">
                 <div class="card-header">
                     <h2 class="text-center my-2"><i class="fas fa-user mr-2"></i>ユーザー情報編集</h2>

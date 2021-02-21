@@ -83,7 +83,7 @@ class UserController extends Controller
     {
         $user->fill($request->all())->save();
 
-        return redirect()->route('user.edit', $user)->with('flashMsg',  'ユーザー情報を編集しました');
+        return redirect()->route('user.show', $user)->with('flashMsg',  'ユーザー情報を編集しました');
     }
 
     /**
