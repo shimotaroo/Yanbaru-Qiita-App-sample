@@ -43,6 +43,36 @@ class ArticlesTableSeeder extends Seeder
                 'updated_at' => date('Y-m-d H:i:s'),
                 'deleted_at' => NULL
             ],
+            [
+                'user_id' => '1',
+                'title' => '絶対に失敗しないDockerでLaravel+Vueの実行環境（LEMP環境）を構築する方法〜前編〜',
+                'category_id' => '1',
+                'summary' => 'Docker、Laravel、Vueの実行環境の構築方法を超わかりやすく解説しました！ LGTMも290以上付いて反響が大きかったです。',
+                'url' => 'https://qiita.com/shimotaroo/items/29f7878b01ee4b99b951',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+                'deleted_at' => NULL
+            ],
+            [
+                'user_id' => '1',
+                'title' => '絶対に失敗しないDockerでLaravel+Vueの実行環境（LEMP環境）を構築する方法〜後編〜',
+                'category_id' => '1',
+                'summary' => '「絶対に失敗しないDockerでLaravel+Vueの実行環境（LEMP環境）を構築する方法〜前編〜」の後半です！',
+                'url' => 'https://qiita.com/shimotaroo/items/679104b7e00dd9f89907',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+                'deleted_at' => NULL
+            ],
+            [
+                'user_id' => '1',
+                'title' => '【Laravel6】セッションの値が多重連想配列の時に特定のkeyに対応するvalueを更新する方法',
+                'category_id' => '1',
+                'summary' => 'セッションを扱うときに役立つ方法を説明しています。',
+                'url' => 'https://qiita.com/shimotaroo/items/7e0bf4cb2847e2ea21f0',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+                'deleted_at' => NULL
+            ],
         ]);
 
     }
