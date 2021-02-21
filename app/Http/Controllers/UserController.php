@@ -10,6 +10,15 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
     /**
+     * コンストラクタ定義
+     * ポリシーを使用できるようにする
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(User::class, 'user');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
