@@ -52,7 +52,7 @@
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('Email') }}<span class="text-danger">(※)</span></label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') $user->email }}" required autocomplete="email" placeholder="****@mail.com">
+                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') ?? $user->email }}" required autocomplete="email" placeholder="****@mail.com">
                                 <small>今回は仮のメールアドレスを入力ください。</small>
                                 @error('email')
                                     <span class="invalid-feedback" role="alert">
