@@ -8,5 +8,8 @@
     "Password": "パスワード",
     "Password Confirm": "パスワード（確認）",
     "Summary": "記事概要",
-    "Category": "カテゴリー"
+    "Category": "カテゴリー",
+    "Register User": "ユーザー登録",
+    "Register": "登録",
+    "Login": "ログイン"
 }
