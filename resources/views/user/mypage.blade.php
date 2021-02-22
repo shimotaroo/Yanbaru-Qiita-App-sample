@@ -17,7 +17,7 @@
         
             <div class="card mb-5">
                 <div class="card-header">
-                    <h2 class="text-center my-2"><i class="fas fa-user mr-2"></i>マイページ</h2>
+                    <h3 class="text-center my-2"><i class="fas fa-user mr-2"></i>マイページ</h3>
                 </div>
 
                 <div class="card-body col-md-8 mx-auto">
@@ -49,7 +49,7 @@
                     </div>
                 </div>
             </div>
-            <h2 class="text-center mb-3">自分の投稿</h2>
+            <h3 class="text-center mb-3">自分の投稿</h3>
             @foreach ($articles as $article)
                 <div class="card mb-5">
                     <div class="card-header d-flex justify-content-between align-items-center">

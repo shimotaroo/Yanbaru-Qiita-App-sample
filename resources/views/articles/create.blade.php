@@ -8,7 +8,7 @@
         <div class="col-md-8">
             <div class="card mb-5">
                 <div class="card-header">
-                    <h2 class="text-center my-2"><i class="fas fa-pen mr-2"></i>記事投稿</h2>
+                    <h3 class="text-center my-2"><i class="fas fa-pen mr-2"></i>記事投稿</h3>
                 </div>
                 <form action="{{ route('articles.store') }}" method="POST">
                     @csrf

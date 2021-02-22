@@ -8,7 +8,7 @@
         <div class="col-md-8">
             <div class="card mb-5">
                 <div class="card-header">
-                    <h2 class="text-center my-2"><i class="fas fa-file-code mr-2"></i>記事詳細</h2>
+                    <h3 class="text-center my-2"><i class="fas fa-file-code mr-2"></i>記事詳細</h3>
                 </div>
 
                 <div class="card-body col-md-8 mx-auto">
