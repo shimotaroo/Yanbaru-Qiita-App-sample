@@ -27,7 +27,7 @@ class UserRequest extends FormRequest
         $uniqueEmail = 'unique:users,email,' . Auth::id();
         return [
             'name' => ['required', 'string', 'max:255'],
-            'term' => ['required', 'numeric', 'max:2'],
+            'term' => ['required', 'digits_between:1,2'],
             'email' => ['required', 'string', 'email', 'max:255', $uniqueEmail],
         ];
     }
