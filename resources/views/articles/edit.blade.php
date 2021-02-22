@@ -8,7 +8,7 @@
         <div class="col-md-8">
             <div class="card mb-5">
                 <div class="card-header">
-                    <h2 class="text-center my-2"><i class="fas fa-pen mr-2"></i>記事編集</h2>
+                    <h3 class="text-center my-2"><i class="fas fa-pen mr-2"></i>記事編集</h3>
                 </div>
                 <form action="{{ route('articles.update', $article) }}" method="POST">
                     @method('PATCH')
@@ -19,7 +19,7 @@
                         </div>                            
                         <div class="form-group mb-4">
                             <label for="title">記事タイトル<span class="text-danger">(※)</span></label>
-                            <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" placeholder="記事タイトル" value="{{ $article->title ?? old('title') }}" autofocus required>
+                            <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" placeholder="記事タイトル" value="{{ old('title') ?? $article->title }}" autofocus required>
                             <small id="url" class="form-text text-muted">50文字以内で入力してください。</small>
                             @error('title')
                                 <span class="invalid-feedback" role="alert">
@@ -45,7 +45,7 @@
                         </div>
                         <div class="form-group mb-4">
                             <label for="summary">記事概要<span class="text-danger">(※)</span></label>
-                            <textarea class="form-control @error('summary') is-invalid @enderror" id="summary" name="summary" placeholder="記事概要" rows="6" required>{{ $article->summary ?? old('summary') }}</textarea>
+                            <textarea class="form-control @error('summary') is-invalid @enderror" id="summary" name="summary" placeholder="記事概要" rows="6" required>{{ old('summary') ?? $article->summary }}</textarea>
                             <small id="url" class="form-text text-muted">30文字以上で入力してください。</small>
                             @error('summary')
                                 <span class="invalid-feedback" role="alert">
@@ -55,7 +55,7 @@
                         </div>
                         <div class="form-group mb-4">
                             <label for="url">記事URL<span class="text-danger">(※)</span></label>
-                            <input type="url" class="form-control @error('url') is-invalid @enderror" id="url" name="url" placeholder="記事URL" value="{{ $article->url ?? old('url') }}" required>
+                            <input type="url" class="form-control @error('url') is-invalid @enderror" id="url" name="url" placeholder="記事URL" value="{{ old('url') ?? $article->url }}" required>
                             <small id="url" class="form-text text-muted">Qiitaの記事のURLを入力してください。</small>
                             @error('url')
                                 <span class="invalid-feedback" role="alert">

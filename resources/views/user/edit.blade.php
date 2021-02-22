@@ -8,7 +8,7 @@
         <div class="col-md-8">            
             <div class="card mb-5">
                 <div class="card-header">
-                    <h2 class="text-center my-2"><i class="fas fa-user mr-2"></i>ユーザー情報編集</h2>
+                    <h3 class="text-center my-2"><i class="fas fa-user mr-2"></i>ユーザー情報編集</h3>
                 </div>
 
                 <div class="card-body">
@@ -23,7 +23,7 @@
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}<span class="text-danger">(※)</span></label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ $user->name ?? old('name') }}" required autocomplete="name" autofocus placeholder="やんばる太朗">
+                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') ?? $user->name }}" required autocomplete="name" autofocus placeholder="やんばる太朗">
                                 <small>Slack名を入力してください。</small>
                                 @error('name')
                                     <span class="invalid-feedback" role="alert">
@@ -37,7 +37,7 @@
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('Term') }}<span class="text-danger">(※)</span></label>
 
                             <div class="col-md-6">
-                                <input id="email" type="number" class="form-control @error('term') is-invalid @enderror" name="term" value="{{ $user->term ?? old('term') }}" required autocomplete="term" placeholder="3" min="1">
+                                <input id="email" type="number" class="form-control @error('term') is-invalid @enderror" name="term" value="{{ old('term') ?? $user->term }}" required autocomplete="term" placeholder="3" min="1">
                                 <small>半角数字2桁以内で入力してください。</small>
                                 @error('term')
                                     <span class="invalid-feedback" role="alert">
@@ -52,7 +52,7 @@
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('Email') }}<span class="text-danger">(※)</span></label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $user->email ?? old('email') }}" required autocomplete="email" placeholder="****@mail.com">
+                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') $user->email }}" required autocomplete="email" placeholder="****@mail.com">
                                 <small>今回は仮のメールアドレスを入力ください。</small>
                                 @error('email')
                                     <span class="invalid-feedback" role="alert">
