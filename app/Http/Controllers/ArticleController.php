@@ -8,6 +8,7 @@ use App\Http\Requests\ArticleRequest;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ArticleController extends Controller
 {
@@ -52,9 +53,15 @@ class ArticleController extends Controller
     public function store(ArticleRequest $request)
     {
         $article = new Article();
-        $article->fill($request->all());
-        $article->user_id = Auth::id();
-        $article->save();
+
+        // トランザクション
+        DB::transaction(function () use ($article, $request){
+            $article->fill($request->all());
+            $article->user_id = Auth::id();
+            $article->save();
+
+            return $article;
+        });
 
         return redirect()->route('index')->with('flashMsg',  '記事を投稿しました');
     }
@@ -95,7 +102,11 @@ class ArticleController extends Controller
      */
     public function update(ArticleRequest $request, Article $article)
     {
-        $article->fill($request->all())->save();
+        DB::transaction(function () use ($article, $request){
+            $article->fill($request->all())->save();
+            
+            return $article;
+        });
 
         return redirect()->route('index')->with('flashMsg',  '記事を編集しました');
     }
@@ -108,7 +119,10 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article)
     {
-        $article->delete();
+        DB::transaction(function () use ($article){
+            $article->delete();
+            return $article;
+        });
         return redirect()->route('index')->with('flashMsg',  '記事を削除しました');;
     }
 }
