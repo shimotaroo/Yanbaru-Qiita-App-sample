@@ -6,6 +6,7 @@ use App\Article;
 use App\Http\Requests\UserRequest;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -81,7 +82,9 @@ class UserController extends Controller
      */
     public function update(UserRequest $request, User $user)
     {
-        $user->fill($request->all())->save();
+        DB::transaction(function () use ($user, $request) {
+            $user->fill($request->all())->save();            
+        });
 
         return redirect()->route('user.show', $user)->with('flashMsg',  'ユーザー情報を編集しました');
     }
