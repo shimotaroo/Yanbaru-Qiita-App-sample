@@ -15,6 +15,8 @@
             @endif
             {{-- フラッシュメッセージ --}}
 
+            @include('layouts.search')
+
             {{-- 記事が登録されている場合 --}}
             @if (!$articles->isEmpty())
             <div class="row">
