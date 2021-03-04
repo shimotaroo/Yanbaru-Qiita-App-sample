@@ -14,13 +14,21 @@
 // トップページ
 Route::get('/', 'ArticleController@index')->name('index');
 
-// 記事CRUD処理用のルーティング
+/**
+ * 記事
+ */
+// CRUD用
 // 登録、編集、削除はログイン状態でしか使用できないようにする
 Route::resource('articles', 'ArticleController')->only(['create', 'edit', 'store', 'update', 'destroy'])->middleware('auth');
 Route::resource('articles', 'ArticleController')->only(['show']);
 
-// 認証系のルーティング
+/**
+ * 認証
+ */
 Auth::routes();
 
-// ユーザー用CRUD処理用のルーティング
+/**
+ * ユーザー
+ */
+//CRUD用
 Route::resource('user', 'UserController')->only(['edit', 'update', 'show'])->middleware('auth');
