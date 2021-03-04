@@ -23,6 +23,12 @@ Route::resource('articles', 'ArticleController')->only(['create', 'edit', 'store
 Route::resource('articles', 'ArticleController')->only(['show']);
 
 /**
+ * コメント
+ */
+Route::get('comment/{article}/create', 'commentController@create')->name('comment.create');
+Route::post('comment/{article}/store', 'commentController@store')->name('comment.store');
+
+/**
  * 認証
  */
 Auth::routes();
