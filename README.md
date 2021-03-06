@@ -49,9 +49,17 @@ https://github.com/shimotaroo/Yanbaru-Qiita-App#laravel%E3%83%97%E3%83%AD%E3%82%
 
 作業概要
 
+
 - Laravel用`.env`作成、環境変数設定
-- appコンテナに入って`composer install`実行
-- appコンテナに入って`php artisan key:generate`実行
+- 以下コマンドをappコンテナ内で実行
+
+```
+$ composer install
+$ php artisan key:generate
+$ php artisan migrate --seed
+$ npm install
+$ npm run dev
+``` 
 
 ### ページ確認
 
