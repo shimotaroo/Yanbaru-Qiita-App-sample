@@ -25,8 +25,11 @@ Route::resource('articles', 'ArticleController')->only(['show']);
 /**
  * コメント
  */
-Route::get('comment/{article}/create', 'commentController@create')->name('comment.create');
-Route::post('comment/{article}/store', 'commentController@store')->name('comment.store');
+Route::prefix('comments')->name('comments.')->middleware('auth')->group(function(){
+    Route::get('/{article}/create', 'CommentController@create')->name('create');
+    Route::post('/{article}/store', 'CommentController@store')->name('store');
+    Route::delete('/{comment}/delete', 'CommentController@destroy')->name('destroy');
+});
 
 /**
  * 認証

@@ -32,4 +32,12 @@ class Article extends Model
     {
         return $this->belongsTo('App\Category');
     }
+
+    /**
+     * Articleモデルを起点に記事にコメントしたUserモデルを取得する
+     */
+    public function comments()
+    {
+        return $this->belongsToMany('App\User', 'comments')->withPivot(['id','comment'])->withTimestamps();
+    }
 }
