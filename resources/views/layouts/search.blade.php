@@ -4,19 +4,10 @@
         <div class="row">
             <p class="col-md-4 text-md-right">{{ __('Term') }}</p>
             <div class="col-md-6">
-                {{-- TODO：仮で作っているので適宜変更してください --}}
-                <select name="" id="" class="mr-2">
-                    <option value=""></option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                    <option value="10">10</option>
+                <select name="term" id="" class="mr-2">
+                    @foreach (config('const') as $termNumber)
+                        <option value="{{ $termNumber }}">{{ $termNumber }}</option>
+                    @endforeach
                 </select>
                 期生
             </div>

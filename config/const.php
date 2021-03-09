@@ -1,0 +1,23 @@
+<?php
+    return[
+        "firstTerm" => "1", 
+        "secondTerm" => "2", 
+        "thirdTerm" => "3", 
+        "fourthTerm" => "4", 
+        "fifthTerm" => "5", 
+        "sixthTerm" => "6", 
+        "seventhTerm" => "7", 
+        "eighthTerm" => "8", 
+        "ninthTerm" => "9", 
+        "tenthTerm" => "10", 
+        "eleventhTerm" => "11", 
+        "twelfthTerm" => "12", 
+        "thirteenthTerm" => "13", 
+        "fourteenthTerm" => "14", 
+        "fifteenthTerm" => "15", 
+        "sixteenthTerm" => "16", 
+        "seventeenthTerm" => "17", 
+        "eighteenthTerm" => "18", 
+        "nineteenthTerm" => "19", 
+        "twentiethTerm" => "20", 
+    ];
