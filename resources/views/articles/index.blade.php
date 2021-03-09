@@ -33,7 +33,7 @@
                                         <form action="{{ route('articles.destroy', $article) }}" method="POST" id="delete-form">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="button" class="btn btn-danger rounded-pill ml-auto" id="delete-btn"><i class="far fa-trash-alt mr-1"></i>削除</button>                                
+                                            <button type="button" class="btn btn-danger rounded-pill ml-auto" id="delete-btn" data-delete-target="記事"><i class="far fa-trash-alt mr-1"></i>削除</button>                                
                                         </form>
                                     @endif
                                 </div>

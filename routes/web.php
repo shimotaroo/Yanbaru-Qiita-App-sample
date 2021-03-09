@@ -23,6 +23,15 @@ Route::resource('articles', 'ArticleController')->only(['create', 'edit', 'store
 Route::resource('articles', 'ArticleController')->only(['show']);
 
 /**
+ * コメント
+ */
+Route::prefix('comments')->name('comments.')->middleware('auth')->group(function(){
+    Route::get('/{article}/create', 'CommentController@create')->name('create');
+    Route::post('/{article}/store', 'CommentController@store')->name('store');
+    Route::delete('/{comment}/delete', 'CommentController@destroy')->name('destroy');
+});
+
+/**
  * 認証
  */
 Auth::routes();

@@ -51,7 +51,7 @@
 
         @yield('content')
 
-        <script src="{{ mix('js/articles.js')}}"></script>
+        <script src="{{ mix('js/common.js')}}"></script>
 
     </div>
 </body>

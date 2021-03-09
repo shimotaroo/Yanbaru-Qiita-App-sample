@@ -8,8 +8,9 @@
 
     // 削除の事前確認
     $('#delete-btn').on('click', function() {
+        const deleteTarget = $(this).data('deleteTarget');
         // キャンセル
-        if (!confirm('記事を削除してもよろしいですか？')) {
+        if (!confirm(deleteTarget + 'を削除してもよろしいですか？')) {
             // 削除しない
             return false;
         // OK
