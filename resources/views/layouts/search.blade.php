@@ -7,7 +7,7 @@
             <div class="col-md-6">
                 <select name="term" id="term" class="mr-2">
                     <option></option>
-                    @foreach (config('const') as $index => $termNumber)
+                    @foreach (config('consts.term') as $index => $termNumber)
                         <option value="{{ $termNumber }}" @if(old('term', $selectTerm ?? '') == $index) selected @endif>{{ $termNumber }}</option>
                     @endforeach
                 </select>
