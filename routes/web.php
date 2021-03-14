@@ -36,5 +36,4 @@ Route::resource('user', 'UserController')->only(['edit', 'update', 'show'])->mid
 /**
  * 検索
  */
-//セレクトボックス用
 Route::get('searchArticles','ArticleController@searchArticles')->name('searchArticles');
