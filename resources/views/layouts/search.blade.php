@@ -8,7 +8,7 @@
                 <select name="term" id="term" class="mr-2">
                     <option></option>
                     @foreach (config('const') as $index => $termNumber)
-                        <option value="{{ $index }}" @if(old('term', $selectTerm ?? '') == $index) selected @endif>{{ $termNumber }}</option>
+                        <option value="{{ $termNumber }}" @if(old('term', $selectTerm ?? '') == $index) selected @endif>{{ $termNumber }}</option>
                     @endforeach
                 </select>
                 期生
