@@ -151,7 +151,7 @@ class ArticleController extends Controller
         }
         // Word のみが選択されていた場合
         if (empty($selectTerm) && empty($selectCategory) && !empty($selectWord) ) {
-            $query->where('articles.title', 'like', '%' . $selectWord . '%');
+            $query->where('articles.title', 'like', '%' . self::escapeLike($selectWord) . '%');
         }
         // Term・Category が選択されていた場合
         if (!empty($selectTerm) && !empty($selectCategory) && empty($selectWord) ) {
@@ -161,18 +161,18 @@ class ArticleController extends Controller
         // Term・Word が選択されていた場合
         if (!empty($selectTerm) && empty($selectCategory) && !empty($selectWord) ) {
             $query->where('users.term', $selectTerm)
-                ->where('articles.title', 'like', '%' . $selectWord . '%');
+                ->where('articles.title', 'like', '%' . self::escapeLike($selectWord) . '%');
         }
         // Category・Word が選択されていた場合
         if (empty($selectTerm) && !empty($selectCategory) && !empty($selectWord) ) {
             $query->where('categories.name', $selectCategory)
-                ->where('articles.title', 'like', '%' . $selectWord . '%');
+                ->where('articles.title', 'like', '%' . self::escapeLike($selectWord) . '%');
         }
         // Term・Category・Word が選択されていた場合
         if (!empty($selectTerm) && !empty($selectCategory) && !empty($selectWord) ) {
             $query->where('users.term', $selectTerm)
                 ->where('categories.name', $selectCategory)
-                ->where('articles.title', 'like', '%' . $selectWord . '%');
+                ->where('articles.title', 'like', '%' . self::escapeLike($selectWord) . '%');
         }
 
         // ページネーション 作成日降順
@@ -180,5 +180,13 @@ class ArticleController extends Controller
         $category = new Category();
         $categoryForSelects = $category->getAll();
         return view('articles.index', compact('articles', 'categoryForSelects', 'selectTerm', 'selectCategory', 'selectWord'));
+    }
+
+    /**
+     * str_replaceでセキュリティ対策
+     */
+    public static function escapeLike($str)
+    {
+        return str_replace(['\\', '%', '_'], ['\\\\', '\%', '\_'], $str);
     }
 }
