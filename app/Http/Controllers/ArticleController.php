@@ -28,8 +28,10 @@ class ArticleController extends Controller
      */
     public function index()
     {
+        $category = new Category();
+        $categoryForSelects = $category->getAll();
         $articles = Article::with('user')->orderBy('created_at', 'desc')->paginate(10);
-        return view('articles.index', compact('articles'));
+        return view('articles.index', compact('articles', 'categoryForSelects'));
     }
 
     /**
@@ -124,5 +126,59 @@ class ArticleController extends Controller
             return $article;
         });
         return redirect()->route('index')->with('flashMsg',  '記事を削除しました');;
+    }
+
+    /**
+     *  検索結果画面表示
+     */
+    public function searchArticles(Request $request)
+    {
+        $selectTerm = $request->input('term');
+        $selectCategory = $request->input('category');
+        $selectWord = $request->input('word');
+
+        // クエリ生成
+        $article = new Article();
+        $query = $article->getQuery();
+
+        // Term のみが選択されていた場合
+        if (!empty($selectTerm) && empty($selectCategory) && empty($selectWord) ) {
+            $query->where('users.term', $selectTerm);
+        }
+        // Category のみが選択されていた場合
+        if (empty($selectTerm) && !empty($selectCategory) && empty($selectWord) ) {
+            $query->where('categories.name', $selectCategory);
+        }
+        // Word のみが選択されていた場合
+        if (empty($selectTerm) && empty($selectCategory) && !empty($selectWord) ) {
+            $query->where('articles.title', 'like', '%' . $selectWord . '%');
+        }
+        // Term・Category が選択されていた場合
+        if (!empty($selectTerm) && !empty($selectCategory) && empty($selectWord) ) {
+            $query->where('users.term', $selectTerm)
+                ->where('categories.name', $selectCategory);
+            }
+        // Term・Word が選択されていた場合
+        if (!empty($selectTerm) && empty($selectCategory) && !empty($selectWord) ) {
+            $query->where('users.term', $selectTerm)
+                ->where('articles.title', 'like', '%' . $selectWord . '%');
+        }
+        // Category・Word が選択されていた場合
+        if (empty($selectTerm) && !empty($selectCategory) && !empty($selectWord) ) {
+            $query->where('categories.name', $selectCategory)
+                ->where('articles.title', 'like', '%' . $selectWord . '%');
+        }
+        // Term・Category・Word が選択されていた場合
+        if (!empty($selectTerm) && !empty($selectCategory) && !empty($selectWord) ) {
+            $query->where('users.term', $selectTerm)
+                ->where('categories.name', $selectCategory)
+                ->where('articles.title', 'like', '%' . $selectWord . '%');
+        }
+
+        // ページネーション 作成日降順
+        $articles = $query->orderBy('articles.created_at','desc')->paginate(10);
+        $category = new Category();
+        $categoryForSelects = $category->getAll();
+        return view('articles.index', compact('articles', 'categoryForSelects', 'selectTerm', 'selectCategory', 'selectWord'));
     }
 }
