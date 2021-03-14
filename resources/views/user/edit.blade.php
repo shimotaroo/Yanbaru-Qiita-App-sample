@@ -62,17 +62,17 @@
                             </div>
                         </div>
 
-                        <div class="row mt-4">
+                        <div class="row mt-4 align-items-center">
                             <p class="col-md-4 text-md-right">{{ __('Password') }}</@>
                             <p class="col-md-6">
-                                パスワードは変更できません
+                                <a class='btn btn-success text-white mx-auto py-2 px-3' href=""><i class="fas fa-key mr-2"></i>パスワードを編集</a>
                             </p>
                         </div>
 
                         <button type="submit" class="btn btn-block btn-success col-md-4 mx-auto py-2 mt-5">
-                            編集する
+                            更新する
                         </button>
-                        <a class='btn btn-block btn-secondary text-white col-md-4 mx-auto py-2  mb-4' href="{{ route('index') }}">戻る</a>
+                        <a class='btn btn-block btn-secondary text-white col-md-4 mx-auto py-2  mb-4' href="{{ route('user.show', $user) }}">戻る</a>
                     </form>
                 </div>
             </div>

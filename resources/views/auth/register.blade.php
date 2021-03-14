@@ -76,10 +76,10 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Password Confirm') }}<span class="text-danger">(※)</span></label>
+                            <label for="password_confirm" class="col-md-4 col-form-label text-md-right">{{ __('Password Confirm') }}<span class="text-danger">(※)</span></label>
 
                             <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password" placeholder="********">
+                                <input id="password_confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password" placeholder="********">
                                 <small>確認のためパスワードを再度入力してください。</small>
                             </div>
                         </div>

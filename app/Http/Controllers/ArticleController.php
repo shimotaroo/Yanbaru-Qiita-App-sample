@@ -30,7 +30,7 @@ class ArticleController extends Controller
     {
         $category = new Category();
         $categoryForSelects = $category->getAll();
-        $articles = Article::with('user')->orderBy('created_at', 'desc')->paginate(10);
+        $articles = Article::with('user', 'comments')->orderBy('created_at', 'desc')->paginate(10);
         return view('articles.index', compact('articles', 'categoryForSelects'));
     }
 
@@ -76,7 +76,10 @@ class ArticleController extends Controller
      */
     public function show(Article $article)
     {
-        return view('articles.show', compact('article'));
+        // 記事のコメント取得
+        $comments = $article->comments;
+        
+        return view('articles.show', compact('article', 'comments'));
     }
 
     /**
