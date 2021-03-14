@@ -16,7 +16,7 @@ class Article extends Model
         'summary',
         'url',
     ];
-    
+
     /**
      * 記事を投稿したユーザーを取得する
      */
@@ -31,5 +31,17 @@ class Article extends Model
     public function category()
     {
         return $this->belongsTo('App\Category');
+    }
+
+    /**
+     * 記事検索用のベースとなるクエリ生成
+     */
+    public function getQuery()
+    {
+        $queryForSearchArticles = $this->query()
+            ->join('users', 'articles.user_id', 'users.id')
+            ->join('categories', 'articles.category_id', 'categories.id');
+
+            return $queryForSearchArticles;
     }
 }
