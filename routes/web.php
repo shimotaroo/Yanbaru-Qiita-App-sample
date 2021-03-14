@@ -32,3 +32,9 @@ Auth::routes();
  */
 //CRUD用
 Route::resource('user', 'UserController')->only(['edit', 'update', 'show'])->middleware('auth');
+
+/**
+ * 検索
+ */
+//セレクトボックス用
+Route::get('searchArticles','ArticleController@searchArticles')->name('searchArticles');
