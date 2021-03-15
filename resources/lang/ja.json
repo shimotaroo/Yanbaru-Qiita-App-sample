@@ -11,5 +11,9 @@
     "Category": "カテゴリー",
     "Register User": "ユーザー登録",
     "Register": "登録",
-    "Login": "ログイン"
+    "Login": "ログイン",
+    "Free Word": "フリーワード",
+    "Current Password": "現在のパスワード",
+    "New Password": "新しいパスワード",
+    "New Password Confirm": "新しいパスワード（確認）"
 }

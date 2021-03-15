@@ -64,7 +64,7 @@
                             @enderror
                         </div>                        
                         <button type="submit" class="btn btn-block btn-success col-md-4 mx-auto py-2 mt-5">
-                            編集する
+                            更新する
                         </button>
                         <a class='btn btn-block btn-secondary text-white col-md-4 mx-auto py-2  mb-4' href="{{ route('index') }}">戻る</a>
                     </div>

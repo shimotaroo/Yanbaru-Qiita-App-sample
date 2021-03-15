@@ -15,6 +15,8 @@
             @endif
             {{-- フラッシュメッセージ --}}
 
+            @include('layouts.search')
+
             {{-- 記事が登録されている場合 --}}
             @if (!$articles->isEmpty())
             <div class="row">
@@ -27,11 +29,11 @@
                                 </div>
                                 <div class="d-flex justify-content-around">
                                     @if ($article->user_id === Auth::id())
-                                        <a  href="{{ route('articles.edit', $article) }}" class="btn btn-secondary rounded-pill ml-auto mr-2">編集</a>
+                                        <a href="{{ route('articles.edit', $article) }}" class="btn btn-secondary rounded-pill ml-auto mr-2"><i class="far fa-edit mr-1"></i>編集</a>
                                         <form action="{{ route('articles.destroy', $article) }}" method="POST" id="delete-form">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="button" class="btn btn-danger rounded-pill ml-auto" id="delete-btn">削除</button>                                
+                                            <button type="button" class="btn btn-danger rounded-pill ml-auto" id="delete-btn" data-delete-target="記事"><i class="far fa-trash-alt mr-1"></i>削除</button>                                
                                         </form>
                                     @endif
                                 </div>
