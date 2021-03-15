@@ -16,23 +16,23 @@ class CategoriesTableSeeder extends Seeder
         DB::table('categories')->insert([
             [
                 'name' => 'Laravel',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
             [
                 'name' => 'PHP',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
             [
                 'name' => 'Docker',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
             [
                 'name' => 'web基礎',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
         ]);
     }
