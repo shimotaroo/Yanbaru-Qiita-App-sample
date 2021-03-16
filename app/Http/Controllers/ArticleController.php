@@ -6,9 +6,11 @@ use App\Article;
 use App\Category;
 use App\Http\Requests\ArticleRequest;
 use App\User;
+use Facade\FlareClient\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ArticleController extends Controller
 {
@@ -127,5 +129,46 @@ class ArticleController extends Controller
             return $article;
         });
         return redirect()->route('index')->with('flashMsg',  '記事を削除しました');;
+    }
+
+    /**
+     * CSVダウンロード
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function downloadCsv()
+    {
+
+        $articles = Article::with('user', 'category')->orderBy('created_at', 'desc')->get()->toArray();
+        $csvHeader = [
+            '名前',
+            'カテゴリー',
+            'タイトル',
+            '概要',
+            'URL'
+        ];
+        $file = fopen('php://temp', 'r+b');
+        if ($file) {
+            fputcsv($file, $csvHeader);
+            foreach ($articles as $article) {
+                    $writeData = [
+                        $article['user']['name'],
+                        $article['category']['name'],
+                        $article['title'],
+                        $article['summary'],
+                        $article['url'],
+                    ];
+                    fputcsv($file, $writeData);
+            }
+            rewind($file);
+            $csv = str_replace(PHP_EOL, "\r\n", stream_get_contents($file));
+            $csv = mb_convert_encoding($csv, 'SJIS-win', 'UTF-8');
+            $headers = array(
+                'Content-Type' => 'text/csv',
+                'Content-Disposition' => 'attachment; filename="yanbaru_qiita.csv"',
+            );
+        }
+        dd(response($csv, 200, $headers));
+        return response($csv, 200, $headers);
     }
 }

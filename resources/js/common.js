@@ -19,4 +19,17 @@
             $('#delete-form').submit();
         }
     });
+
+    // CSVダウンロードのAPIをajaxで呼び出す
+    // 今は使わない
+    // $('#csv-download-button').on('click', function() {
+    //     $.ajax({
+    //         url: "/articles/csv_download",
+    //         type: "GET",
+    //         dataType: "json"
+    //     }).done(function (result) {
+    //
+    //     }).fail(function () {
+    //     });
+    // });
 })();
