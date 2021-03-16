@@ -34,15 +34,34 @@ class Article extends Model
     }
 
     /**
-     * 記事検索用のベースとなるクエリ生成
+     * 絞り込み検索時にDBからデータを取得するqueryを作成
+     *
+     * @return Illuminate\Database\Eloquent\Builder
      */
-    public function getQuery()
+    public function makeQueryOfSearch($query, $inputTerm, $inputCategory, $inputWord)
     {
-        $queryForSearchArticles = $this->query()
-            ->join('users', 'articles.user_id', 'users.id')
+        $query->join('users', 'articles.user_id', 'users.id')
             ->join('categories', 'articles.category_id', 'categories.id');
 
-            return $queryForSearchArticles;
+        if(!empty($inputTerm)) {
+            $query->where('users.term', $inputTerm);
+        }
+        if(!empty($inputCategory)) {
+            $query->where('categories.name', $inputCategory);
+        }
+        if(!empty($inputWord)) {
+            $query->where('articles.title', 'like', '%' . $this->escapeLike($inputWord) . '%');
+        }
+
+        return $query;
+    }
+
+    /**
+     * str_replaceでセキュリティ対策
+     */
+    public static function escapeLike($str)
+    {
+        return str_replace(['\\', '%', '_'], ['\\\\', '\%', '\_'], $str);
     }
 
     /*
