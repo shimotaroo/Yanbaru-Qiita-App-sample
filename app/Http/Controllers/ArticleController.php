@@ -29,9 +29,9 @@ class ArticleController extends Controller
     public function index()
     {
         $category = new Category();
-        $categoryForSelects = $category->getAll();
+        $categoryForSelectBox = $category->getAll();
         $articles = Article::with('user', 'comments')->orderBy('created_at', 'desc')->paginate(10);
-        return view('articles.index', compact('articles', 'categoryForSelects'));
+        return view('articles.index', compact('articles', 'categoryForSelectBox'));
     }
 
     /**
@@ -133,63 +133,26 @@ class ArticleController extends Controller
 
     /**
      *  検索結果画面表示
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
      */
-    public function searchArticles(Request $request)
+    public function search(Request $request)
     {
-        $selectTerm = $request->input('term');
-        $selectCategory = $request->input('category');
-        $selectWord = $request->input('word');
+        $inputTerm = $request->term;
+        $inputCategory = $request->category;
+        $inputWord = $request->word;
 
-        // クエリ生成
-        $article = new Article();
-        $query = $article->getQuery();
-
-        // Term のみが選択されていた場合
-        if (!empty($selectTerm) && empty($selectCategory) && empty($selectWord) ) {
-            $query->where('users.term', $selectTerm);
-        }
-        // Category のみが選択されていた場合
-        if (empty($selectTerm) && !empty($selectCategory) && empty($selectWord) ) {
-            $query->where('categories.name', $selectCategory);
-        }
-        // Word のみが選択されていた場合
-        if (empty($selectTerm) && empty($selectCategory) && !empty($selectWord) ) {
-            $query->where('articles.title', 'like', '%' . self::escapeLike($selectWord) . '%');
-        }
-        // Term・Category が選択されていた場合
-        if (!empty($selectTerm) && !empty($selectCategory) && empty($selectWord) ) {
-            $query->where('users.term', $selectTerm)
-                ->where('categories.name', $selectCategory);
-            }
-        // Term・Word が選択されていた場合
-        if (!empty($selectTerm) && empty($selectCategory) && !empty($selectWord) ) {
-            $query->where('users.term', $selectTerm)
-                ->where('articles.title', 'like', '%' . self::escapeLike($selectWord) . '%');
-        }
-        // Category・Word が選択されていた場合
-        if (empty($selectTerm) && !empty($selectCategory) && !empty($selectWord) ) {
-            $query->where('categories.name', $selectCategory)
-                ->where('articles.title', 'like', '%' . self::escapeLike($selectWord) . '%');
-        }
-        // Term・Category・Word が選択されていた場合
-        if (!empty($selectTerm) && !empty($selectCategory) && !empty($selectWord) ) {
-            $query->where('users.term', $selectTerm)
-                ->where('categories.name', $selectCategory)
-                ->where('articles.title', 'like', '%' . self::escapeLike($selectWord) . '%');
-        }
-
-        // ページネーション 作成日降順
-        $articles = $query->orderBy('articles.created_at','desc')->paginate(10);
         $category = new Category();
-        $categoryForSelects = $category->getAll();
-        return view('articles.index', compact('articles', 'categoryForSelects', 'selectTerm', 'selectCategory', 'selectWord'));
-    }
+        $categoryForSelectBox= $category->getAll();
 
-    /**
-     * str_replaceでセキュリティ対策
-     */
-    public static function escapeLike($str)
-    {
-        return str_replace(['\\', '%', '_'], ['\\\\', '\%', '\_'], $str);
+        $Article = new Article;
+        $query = $Article->query();
+
+        $searchQuery = $Article->makeQueryOfSearch($query, $inputTerm, $inputCategory, $inputWord);
+        $allArticlesBySearch = $searchQuery->orderBy('articles.created_at','desc');
+        $articles = $allArticlesBySearch->paginate(10);
+
+        return view('articles.index', compact('inputTerm', 'inputCategory', 'inputWord', 'articles', 'categoryForSelectBox'));
     }
 }
