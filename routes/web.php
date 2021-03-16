@@ -21,6 +21,8 @@ Route::get('/', 'ArticleController@index')->name('index');
 // 登録、編集、削除はログイン状態でしか使用できないようにする
 Route::resource('articles', 'ArticleController')->only(['create', 'edit', 'store', 'update', 'destroy'])->middleware('auth');
 Route::resource('articles', 'ArticleController')->only(['show']);
+// 検索
+Route::get('articles.search', 'ArticleController@search')->name('articles.search');
 
 /**
  * コメント
@@ -41,8 +43,3 @@ Auth::routes();
  */
 //CRUD用
 Route::resource('user', 'UserController')->only(['edit', 'update', 'show'])->middleware('auth');
-
-/**
- * 検索
- */
-Route::get('searchArticles','ArticleController@searchArticles')->name('searchArticles');
