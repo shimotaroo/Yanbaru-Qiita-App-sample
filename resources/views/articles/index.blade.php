@@ -13,9 +13,14 @@
                     {{ session('flashMsg') }}
                 </div>
             @endif
-            {{-- フラッシュメッセージ --}}
 
+            {{-- 検索エリア --}}
             @include('layouts.search')
+
+            {{-- CSVダウンロードボタン --}}
+            <div class="text-right mr-3 mb-4">
+                <a class="btn btn-primary py-2 px-4" id="csv-download-button" href="{{ route('articles.csv_download')}}"><i class="fas fa-download mr-2"></i>CSVダウンロード</a>
+            </div>
 
             {{-- 記事が登録されている場合 --}}
             @if (!$articles->isEmpty())

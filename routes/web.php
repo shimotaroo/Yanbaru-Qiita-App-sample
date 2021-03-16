@@ -19,6 +19,7 @@ Route::get('/', 'ArticleController@index')->name('index');
  */
 // CRUD用
 // 登録、編集、削除はログイン状態でしか使用できないようにする
+Route::get('/articles/csv_download', 'ArticleController@downloadCsv')->name('articles.csv_download');
 Route::resource('articles', 'ArticleController')->only(['create', 'edit', 'store', 'update', 'destroy'])->middleware('auth');
 Route::resource('articles', 'ArticleController')->only(['show']);
 // 検索
