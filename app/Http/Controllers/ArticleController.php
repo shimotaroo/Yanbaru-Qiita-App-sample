@@ -30,8 +30,10 @@ class ArticleController extends Controller
      */
     public function index()
     {
+        $category = new Category();
+        $categoryForSelectBox = $category->getAll();
         $articles = Article::with('user', 'comments')->orderBy('created_at', 'desc')->paginate(10);
-        return view('articles.index', compact('articles'));
+        return view('articles.index', compact('articles', 'categoryForSelectBox'));
     }
 
     /**
@@ -132,13 +134,36 @@ class ArticleController extends Controller
     }
 
     /**
-     * CSVダウンロード
+     *  検索結果画面表示
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request)
+    {
+        $inputTerm = $request->term;
+        $inputCategory = $request->category;
+        $inputWord = $request->word;
+
+        $category = new Category();
+        $categoryForSelectBox= $category->getAll();
+
+        $Article = new Article;
+        $query = $Article->query();
+
+        $searchQuery = $Article->makeQueryOfSearch($query, $inputTerm, $inputCategory, $inputWord);
+        $allArticlesBySearch = $searchQuery->orderBy('articles.created_at','desc');
+        $articles = $allArticlesBySearch->paginate(10);
+
+        return view('articles.index', compact('inputTerm', 'inputCategory', 'inputWord', 'articles', 'categoryForSelectBox'));
+    }
+
+    /** CSVダウンロード
      * 
      * @return \Illuminate\Http\Response
      */
     public function downloadCsv()
     {
-
         $articles = Article::with('user', 'category')->orderBy('created_at', 'desc')->get()->toArray();
         $csvHeader = [
             '名前',

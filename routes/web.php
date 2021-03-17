@@ -22,6 +22,8 @@ Route::get('/', 'ArticleController@index')->name('index');
 Route::get('/articles/csv_download', 'ArticleController@downloadCsv')->name('articles.csv_download');
 Route::resource('articles', 'ArticleController')->only(['create', 'edit', 'store', 'update', 'destroy'])->middleware('auth');
 Route::resource('articles', 'ArticleController')->only(['show']);
+// 検索
+Route::get('articles.search', 'ArticleController@search')->name('articles.search');
 
 /**
  * コメント

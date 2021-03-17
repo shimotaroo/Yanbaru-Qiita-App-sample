@@ -88,7 +88,7 @@
                 </div>
             @endif
             <div class="col-md-4 mx-auto d-flex justify-content-center">
-                {{ $articles->links() }}
+                {{ $articles->appends(request()->input())->links() }}
             </div>
         </div>
     </div>
