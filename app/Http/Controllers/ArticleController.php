@@ -14,13 +14,19 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ArticleController extends Controller
 {
+    private $article;
+
     /**
      * コンストラクタ定義
      * ポリシーを使用できるようにする
+     * Articleクラスを$this->articleで呼び出せるようにする（各メソッドでの定義を不要にする）
+     * 
+     * @param  App\Article  $article
      */
-    public function __construct()
+    public function __construct(Article $article)
     {
         $this->authorizeResource(Article::class, 'article');
+        $this->article = $article;
     }
 
     /**
@@ -32,7 +38,7 @@ class ArticleController extends Controller
     {
         $category = new Category();
         $categoryForSelectBox = $category->getAll();
-        $articles = Article::with('user', 'comments')->orderBy('created_at', 'desc')->paginate(10);
+        $articles = $this->article->getAll();
         return view('articles.index', compact('articles', 'categoryForSelectBox'));
     }
 
@@ -141,21 +147,18 @@ class ArticleController extends Controller
      */
     public function search(Request $request)
     {
-        $inputTerm = $request->term;
-        $inputCategory = $request->category;
-        $inputWord = $request->word;
+        // 検索用パラメータを1つにまとめておく
+        $parametersForSearch = [
+            'term' => $request->term,
+            'category' => $request->category,
+            'word' => $request->word,
+        ];
 
         $category = new Category();
         $categoryForSelectBox= $category->getAll();
+        $articles = $this->article->searchByInputParameters($parametersForSearch);
 
-        $Article = new Article;
-        $query = $Article->query();
-
-        $searchQuery = $Article->makeQueryOfSearch($query, $inputTerm, $inputCategory, $inputWord);
-        $allArticlesBySearch = $searchQuery->orderBy('articles.created_at','desc');
-        $articles = $allArticlesBySearch->paginate(10);
-
-        return view('articles.index', compact('inputTerm', 'inputCategory', 'inputWord', 'articles', 'categoryForSelectBox'));
+        return view('articles.index', compact('articles', 'parametersForSearch', 'categoryForSelectBox'));
     }
 
     /** CSVダウンロード
@@ -193,7 +196,7 @@ class ArticleController extends Controller
                 'Content-Disposition' => 'attachment; filename="yanbaru_qiita.csv"',
             );
         }
-        dd(response($csv, 200, $headers));
+
         return response($csv, 200, $headers);
     }
 }

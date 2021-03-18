@@ -4,11 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 class Article extends Model
 {
     // 論理削除するためのトレイト
     use SoftDeletes;
+
+    const NOT_DELETED = NULL;
 
     protected $fillable = [
         'title',
@@ -33,27 +36,60 @@ class Article extends Model
         return $this->belongsTo('App\Category');
     }
 
-    /**
-     * 絞り込み検索時にDBからデータを取得するqueryを作成
-     *
-     * @return Illuminate\Database\Eloquent\Builder
+    /*
+     * Articleモデルを起点に記事にコメントしたUserモデルを取得する
      */
-    public function makeQueryOfSearch($query, $inputTerm, $inputCategory, $inputWord)
+    public function comments()
     {
-        $query->join('users', 'articles.user_id', 'users.id')
-            ->join('categories', 'articles.category_id', 'categories.id');
+        return $this->belongsToMany('App\User', 'comments')->withPivot(['id','comment'])->withTimestamps();
+    }
 
-        if(!empty($inputTerm)) {
-            $query->where('users.term', $inputTerm);
+    /**
+     * 全件表示
+     * 
+     * @return Illuminate\Pagination\LengthAwarePaginator
+     */
+    public function getAll()
+    {
+        $articles = DB::table('articles as a')
+            ->select('a.id', 'a.user_id', 'users.name as user_name', 'users.term as user_term', 'a.title', 'a.url', 'a.created_at')
+            ->join('users', 'a.user_id', '=', 'users.id')
+            ->join('categories', 'a.category_id', '=', 'categories.id')
+            ->where('a.deleted_at', self::NOT_DELETED)
+            ->orderBy('a.created_at','desc')
+            ->orderBy('a.id', 'asc')
+            ->paginate(10);
+
+        return $articles;
+    }
+
+    /**
+     * 検索フォームに入力されたパラメータを元に検索をかける
+     * 
+     * @param array $parametersForSearch
+     * @return Illuminate\Pagination\LengthAwarePaginator
+     */
+    public function searchByInputParameters($parametersForSearch)
+    {
+        $query = DB::table('articles as a')
+            ->select('a.id', 'a.user_id', 'users.name as user_name', 'users.term as user_term', 'a.title', 'a.url', 'a.created_at')
+            ->join('users', 'a.user_id', '=', 'users.id')
+            ->join('categories', 'a.category_id', '=', 'categories.id')
+            ->where('a.deleted_at', self::NOT_DELETED);
+
+        if(!empty($parametersForSearch['term'])) {
+            $query->where('users.term', $parametersForSearch['term']);
         }
-        if(!empty($inputCategory)) {
-            $query->where('categories.name', $inputCategory);
+        if(!empty($parametersForSearch['category'])) {
+            $query->where('categories.id', $parametersForSearch['category']);
         }
-        if(!empty($inputWord)) {
-            $query->where('articles.title', 'like', '%' . $this->escapeLike($inputWord) . '%');
+        if(!empty($parametersForSearch['word'])) {
+            $query->where('a.title', 'like', '%' . $this->escapeLike($parametersForSearch['word']) . '%');
         }
 
-        return $query;
+        return $query->orderBy('a.created_at','desc')
+            ->orderBy('a.id', 'asc')
+            ->paginate(10);
     }
 
     /**
@@ -62,13 +98,5 @@ class Article extends Model
     public static function escapeLike($str)
     {
         return str_replace(['\\', '%', '_'], ['\\\\', '\%', '\_'], $str);
-    }
-
-    /*
-     * Articleモデルを起点に記事にコメントしたUserモデルを取得する
-     */
-    public function comments()
-    {
-        return $this->belongsToMany('App\User', 'comments')->withPivot(['id','comment'])->withTimestamps();
     }
 }
