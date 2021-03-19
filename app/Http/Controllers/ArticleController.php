@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Article;
 use App\Category;
 use App\Http\Requests\ArticleRequest;
+use App\Http\Requests\SearchRequest;
 use App\User;
 use Facade\FlareClient\Http\Response;
 use Illuminate\Http\Request;
@@ -145,7 +146,7 @@ class ArticleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function search(Request $request)
+    public function search(SearchRequest $request)
     {
         // 検索用パラメータを1つにまとめておく
         $parametersForSearch = [
