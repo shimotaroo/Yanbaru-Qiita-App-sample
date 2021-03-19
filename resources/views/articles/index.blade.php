@@ -30,12 +30,12 @@
                         <div class="card mb-5">
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <div class="font-weight-bold">
-                                    <i class="fas fa-user-edit mr-2"></i>{{ $article->user->name }}
+                                    <i class="fas fa-user-edit mr-2"></i>{{ $article->user_name }}
                                 </div>
                                 <div class="d-flex justify-content-around">
                                     @if ($article->user_id === Auth::id())
-                                        <a href="{{ route('articles.edit', $article) }}" class="btn btn-secondary rounded-pill ml-auto mr-2"><i class="far fa-edit mr-1"></i>編集</a>
-                                        <form action="{{ route('articles.destroy', $article) }}" method="POST" id="delete-form">
+                                        <a href="{{ route('articles.edit', $article->id) }}" class="btn btn-secondary rounded-pill ml-auto mr-2"><i class="far fa-edit mr-1"></i>編集</a>
+                                        <form action="{{ route('articles.destroy', $article->id) }}" method="POST" id="delete-form">
                                             @csrf
                                             @method('DELETE')
                                             <button type="button" class="btn btn-danger rounded-pill ml-auto" id="delete-btn" data-delete-target="記事"><i class="far fa-trash-alt mr-1"></i>削除</button>                                
@@ -47,7 +47,7 @@
                                 <div class="row">
                                     <p class="col-md-4 text-md-right">{{ __('Term') }}</p>
                                     <p class="col-md-6">
-                                        {{ $article->user->term }}期生
+                                        {{ $article->user_term }}期生
                                     </p>
                                 </div>
                                 <div class="row">
@@ -65,12 +65,12 @@
                                 <div class="row">
                                     <p class="col-md-4 text-md-right">{{ __('DateTime') }}</p>
                                     <p class="col-md-6">
-                                        {{ $article->created_at->format('Y-m-d') }}
+                                        {{ date('Y-m-d', strtotime($article->created_at)) }}
                                     </p>
                                 </div>
                                 <form method="GET" action="{{ route('index') }}">
                                     <div class="row">
-                                        <a href="{{ route('articles.show', $article) }}" class="btn btn-success text-white col-md-4 mx-auto">詳細を見る</a>
+                                        <a href="{{ route('articles.show', $article->id) }}" class="btn btn-success text-white col-md-4 mx-auto">詳細を見る</a>
                                     </div>
                                 </form>
                             </div>
