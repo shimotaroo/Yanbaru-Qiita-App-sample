@@ -135,11 +135,12 @@ class ArticleController extends Controller
 
     /**
      *  検索結果画面表示
-     *
+     * 
+     * @param  App\Article  $article
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function search(Request $request)
+    public function search(Article $article, Request $request)
     {
         $inputTerm = $request->term;
         $inputCategory = $request->category;
@@ -148,13 +149,7 @@ class ArticleController extends Controller
         $category = new Category();
         $categoryForSelectBox= $category->getAll();
 
-        $Article = new Article;
-        $query = $Article->query();
-
-        $searchQuery = $Article->makeQueryOfSearch($query, $inputTerm, $inputCategory, $inputWord);
-        $allArticlesBySearch = $searchQuery->orderBy('articles.created_at','desc');
-        $articles = $allArticlesBySearch->paginate(10);
-
+        $articles = $article->getBySearchParameters($inputTerm, $inputCategory, $inputWord)->paginate(10);
         return view('articles.index', compact('inputTerm', 'inputCategory', 'inputWord', 'articles', 'categoryForSelectBox'));
     }
 
