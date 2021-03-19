@@ -43,7 +43,7 @@ class SearchRequest extends FormRequest
         return [
             'term' => ['numeric', 'max:20', 'nullable'],
             'category' => ['numeric', 'max:' . $maxCategoryId, 'nullable'],
-            'word' => ['string', 'nullable'],
+            'word' => ['string', 'nullable', 'max:20'],
         ];
     }
     
