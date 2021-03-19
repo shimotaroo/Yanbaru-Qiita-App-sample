@@ -41,8 +41,7 @@ class Article extends Model
     public function getBySearchParameters($inputTerm, $inputCategory, $inputWord)
     {
         $query = $this->query();
-        $query
-            ->join('users', 'articles.user_id', 'users.id')
+        $query->join('users', 'articles.user_id', 'users.id')
             ->join('categories', 'articles.category_id', 'categories.id');
 
         $query->when($inputTerm, function($query) use ($inputTerm) {
@@ -54,16 +53,6 @@ class Article extends Model
         $query->when($inputWord, function($query) use ($inputWord) {
             $query->where('articles.title', 'like', '%' . $this->escapeLike($inputWord) . '%');
         });
-
-        // if(!empty($inputTerm)) {
-        //     $query->where('users.term', $inputTerm);
-        // }
-        // if(!empty($inputCategory)) {
-        //     $query->where('categories.name', $inputCategory);
-        // }
-        // if(!empty($inputWord)) {
-        //     $query->where('articles.title', 'like', '%' . $this->escapeLike($inputWord) . '%');
-        // }
 
         $searchedArticles = $query->orderBy('articles.created_at','desc');
         return $searchedArticles;
