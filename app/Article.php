@@ -38,22 +38,35 @@ class Article extends Model
      *
      * @return Illuminate\Database\Eloquent\Builder
      */
-    public function makeQueryOfSearch($query, $inputTerm, $inputCategory, $inputWord)
+    public function getBySearchParameters($inputTerm, $inputCategory, $inputWord)
     {
-        $query->join('users', 'articles.user_id', 'users.id')
+        $query = $this->query();
+        $query
+            ->join('users', 'articles.user_id', 'users.id')
             ->join('categories', 'articles.category_id', 'categories.id');
 
-        if(!empty($inputTerm)) {
-            $query->where('users.term', $inputTerm);
-        }
-        if(!empty($inputCategory)) {
+        $query->when($inputTerm, function($query) use ($inputTerm) {
+            return $query->where('users.term', $inputTerm);
+        });
+        $query->when($inputCategory, function($query) use ($inputCategory) {
             $query->where('categories.name', $inputCategory);
-        }
-        if(!empty($inputWord)) {
+        });
+        $query->when($inputWord, function($query) use ($inputWord) {
             $query->where('articles.title', 'like', '%' . $this->escapeLike($inputWord) . '%');
-        }
+        });
 
-        return $query;
+        // if(!empty($inputTerm)) {
+        //     $query->where('users.term', $inputTerm);
+        // }
+        // if(!empty($inputCategory)) {
+        //     $query->where('categories.name', $inputCategory);
+        // }
+        // if(!empty($inputWord)) {
+        //     $query->where('articles.title', 'like', '%' . $this->escapeLike($inputWord) . '%');
+        // }
+
+        $searchedArticles = $query->orderBy('articles.created_at','desc');
+        return $searchedArticles;
     }
 
     /**
