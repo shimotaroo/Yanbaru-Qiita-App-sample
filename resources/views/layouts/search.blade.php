@@ -6,7 +6,7 @@
             <div class="col-md-6">
                 <select name="term" id="term" class="mr-2 @error('term') is-invalid @enderror">
                     @foreach (config('const.term') as $term)
-                        <option value={{ $term }} @if(old('term', $parametersForSearch['term'] ?? '') == $term) selected @endif>{{ $term }}</option>
+                        <option value="{{ $term }}" @if(old('term', $parametersForSearch['term'] ?? '') == $term) selected @endif>{{ $term }}</option>
                     @endforeach
                 </select>
                 @error('term')
