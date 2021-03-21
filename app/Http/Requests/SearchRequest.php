@@ -23,11 +23,18 @@ class SearchRequest extends FormRequest
      * @return void
      */
     protected function prepareForValidation()
-    {        
-        $this->merge([
-            'term' => (int) $this->term,
-            'category' => (int) $this->category,
-        ]);
+    {
+        if (!is_null($this->term)) {
+            $this->merge([
+                'term' => (int) $this->term,
+            ]);
+        }
+
+        if (!is_null($this->category)) {
+            $this->merge([
+                'category' => (int) $this->category,
+            ]);
+        }
     }
 
     /**
