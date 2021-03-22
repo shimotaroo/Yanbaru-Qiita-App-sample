@@ -5,9 +5,7 @@ namespace App\Http\Controllers;
 use App\Article;
 use App\Category;
 use App\Http\Requests\ArticleRequest;
-use App\Http\Requests\SearchRequest;
-use App\User;
-use Facade\FlareClient\Http\Response;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -15,7 +13,11 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ArticleController extends Controller
 {
+    /** @var Article */
     private $article;
+
+    /** @var Category */
+    private $category;
 
     /**
      * コンストラクタ定義
@@ -24,10 +26,11 @@ class ArticleController extends Controller
      * 
      * @param  App\Article  $article
      */
-    public function __construct(Article $article)
+    public function __construct()
     {
         $this->authorizeResource(Article::class, 'article');
-        $this->article = $article;
+        $this->article = new Article();
+        $this->category = new Category();
     }
 
     /**
@@ -37,8 +40,7 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $category = new Category();
-        $categoryForSelectBox = $category->getAll();
+        $categoryForSelectBox = $this->category->getAll();
         $articles = $this->article->getAll();
         return view('articles.index', compact('articles', 'categoryForSelectBox'));
     }
@@ -50,8 +52,7 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        $category = new Category();
-        $categoryForRadioButton = $category->getAll();
+        $categoryForRadioButton = $this->category->getAll();
         return view('articles.create', compact('categoryForRadioButton'));
     }
 
@@ -100,8 +101,7 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
-        $category = new Category();
-        $categoryForRadioButton = $category->getAll();
+        $categoryForRadioButton = $this->category->getAll();
 
         return view('articles.edit', compact(['article', 'categoryForRadioButton']));
     }
@@ -142,21 +142,52 @@ class ArticleController extends Controller
 
     /**
      *  検索結果画面表示
+     *  チェック項目
+     *  ・GETパラメータの種類がterm、category、wordのどれかになっているか
+     *  ・termは20以下になっているか
+     *  ・categoryはDBマスタ（categories）の最大id以下になっているか
+     *  ・ワード検索は30字以内になっているか（数百万くらいの入力値を弾くため）
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function search(SearchRequest $request)
+    public function search(Request $request)
     {
-        // 検索用パラメータを1つにまとめておく
-        $parametersForSearch = [
-            'term' => $request->term,
-            'category' => $request->category,
-            'word' => $request->word,
-        ];
+        $categoryForSelectBox= $this->category->getAll();
 
-        $category = new Category();
-        $categoryForSelectBox= $category->getAll();
+        // 検索用パラメータ
+        $parametersForSearch = $request->all();
+
+        // GETパラメータのkeyに不正なものがないかチェック
+        // （例）?test=の場合は404を返す
+        foreach ($parametersForSearch as $key => $value) {
+            if (!in_array($key, ['term', 'category', 'word'])) {
+                // MEMO:404を返すようにしているけど400の方が良い
+                abort(404);
+            }
+        }
+
+        // GETパラメータのvalueに不正な値がないかチェックするためにint型にキャストする（string型だとチェックできない）
+        if (!is_null($parametersForSearch['term'])) {
+            $parametersForSearch['term'] = (int) $request->input('term');
+        }
+        if (!is_null($parametersForSearch['category'])) {
+            $parametersForSearch['category'] = (int) $request->input('category');
+        }
+
+        $maxCategoryId = $this->category->max('id');
+
+        $validator = Validator::make($parametersForSearch, [
+            'term' => ['numeric', 'max:20', 'nullable'],
+            'category' => ['numeric', 'max:' . $maxCategoryId, 'nullable'],
+            'word' => ['string', 'nullable', 'max:30'],
+        ]);
+
+        if ($validator->fails()) {
+            // MEMO:404を返すようにしているけど400の方が良い
+            abort(404);
+        }
+
         $articles = $this->article->searchByInputParameters($parametersForSearch);
 
         return view('articles.index', compact('articles', 'parametersForSearch', 'categoryForSelectBox'));
