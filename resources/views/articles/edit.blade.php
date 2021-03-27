@@ -32,7 +32,7 @@
                             @foreach ($categoryForRadioButton as $index => $categoryName)
                                 <div class="form-check form-check-inline @error('category_id') is-invalid @enderror">
                                     <input class="form-check-input @error('category_id') is-invalid @enderror" type="radio" name="category_id" id="category{{ $index }}" 
-                                        value="{{ $index }}" {{ old('category_id') == $index ? 'checked': '' }} {{ $article->category_id == $index ? 'checked' : '' }}
+                                        value="{{ $index }}" {{ old('category_id', $article->category_id) == $index ? 'checked': '' }}
                                     >
                                     <label class="form-check-label" for="category{{ $index }}">{{ $categoryName }}</label>
                                 </div>                        
@@ -64,7 +64,7 @@
                             @enderror
                         </div>                        
                         <button type="submit" class="btn btn-block btn-success col-md-4 mx-auto py-2 mt-5">
-                            編集する
+                            更新する
                         </button>
                         <a class='btn btn-block btn-secondary text-white col-md-4 mx-auto py-2  mb-4' href="{{ route('index') }}">戻る</a>
                     </div>

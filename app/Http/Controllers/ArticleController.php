@@ -5,20 +5,32 @@ namespace App\Http\Controllers;
 use App\Article;
 use App\Category;
 use App\Http\Requests\ArticleRequest;
-use App\User;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ArticleController extends Controller
 {
+    /** @var Article */
+    private $article;
+
+    /** @var Category */
+    private $category;
+
     /**
      * コンストラクタ定義
      * ポリシーを使用できるようにする
+     * Articleクラスを$this->articleで呼び出せるようにする（各メソッドでの定義を不要にする）
+     * 
+     * @param  App\Article  $article
      */
     public function __construct()
     {
         $this->authorizeResource(Article::class, 'article');
+        $this->article = new Article();
+        $this->category = new Category();
     }
 
     /**
@@ -28,8 +40,9 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = Article::with('user')->orderBy('created_at', 'desc')->paginate(10);
-        return view('articles.index', compact('articles'));
+        $categoryForSelectBox = $this->category->getAll();
+        $articles = $this->article->getAll();
+        return view('articles.index', compact('articles', 'categoryForSelectBox'));
     }
 
     /**
@@ -39,8 +52,7 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        $category = new Category();
-        $categoryForRadioButton = $category->getAll();
+        $categoryForRadioButton = $this->category->getAll();
         return view('articles.create', compact('categoryForRadioButton'));
     }
 
@@ -74,7 +86,10 @@ class ArticleController extends Controller
      */
     public function show(Article $article)
     {
-        return view('articles.show', compact('article'));
+        // 記事のコメント取得
+        $comments = $article->comments;
+        
+        return view('articles.show', compact('article', 'comments'));
     }
 
     /**
@@ -86,8 +101,7 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
-        $category = new Category();
-        $categoryForRadioButton = $category->getAll();
+        $categoryForRadioButton = $this->category->getAll();
 
         return view('articles.edit', compact(['article', 'categoryForRadioButton']));
     }
@@ -124,5 +138,97 @@ class ArticleController extends Controller
             return $article;
         });
         return redirect()->route('index')->with('flashMsg',  '記事を削除しました');;
+    }
+
+    /**
+     *  検索結果画面表示
+     *  チェック項目
+     *  ・GETパラメータの種類がterm、category、wordのどれかになっているか
+     *  ・termは20以下になっているか
+     *  ・categoryはDBマスタ（categories）の最大id以下になっているか
+     *  ・ワード検索は30字以内になっているか（数百万くらいの入力値を弾くため）
+     *
+     * @param  Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request)
+    {
+        $categoryForSelectBox= $this->category->getAll();
+
+        // 検索用パラメータ
+        $parametersForSearch = $request->all();
+
+        // GETパラメータのkeyに不正なものがないかチェック
+        // （例）?test=の場合は404を返す
+        foreach ($parametersForSearch as $key => $value) {
+            if (!in_array($key, ['term', 'category', 'word'])) {
+                // MEMO:404を返すようにしているけど400の方が良い
+                abort(404);
+            }
+        }
+
+        // GETパラメータのvalueに不正な値がないかチェックするためにint型にキャストする（string型だとチェックできない）
+        if (!is_null($parametersForSearch['term'])) {
+            $parametersForSearch['term'] = (int) $request->input('term');
+        }
+        if (!is_null($parametersForSearch['category'])) {
+            $parametersForSearch['category'] = (int) $request->input('category');
+        }
+
+        $maxCategoryId = $this->category->max('id');
+
+        $validator = Validator::make($parametersForSearch, [
+            'term' => ['numeric', 'max:20', 'nullable'],
+            'category' => ['numeric', 'max:' . $maxCategoryId, 'nullable'],
+            'word' => ['string', 'nullable', 'max:30'],
+        ]);
+
+        if ($validator->fails()) {
+            // MEMO:404を返すようにしているけど400の方が良い
+            abort(404);
+        }
+
+        $articles = $this->article->searchByInputParameters($parametersForSearch);
+
+        return view('articles.index', compact('articles', 'parametersForSearch', 'categoryForSelectBox'));
+    }
+
+    /** CSVダウンロード
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function downloadCsv()
+    {
+        $articles = Article::with('user', 'category')->orderBy('created_at', 'desc')->get()->toArray();
+        $csvHeader = [
+            '名前',
+            'カテゴリー',
+            'タイトル',
+            '概要',
+            'URL'
+        ];
+        $file = fopen('php://temp', 'r+b');
+        if ($file) {
+            fputcsv($file, $csvHeader);
+            foreach ($articles as $article) {
+                    $writeData = [
+                        $article['user']['name'],
+                        $article['category']['name'],
+                        $article['title'],
+                        $article['summary'],
+                        $article['url'],
+                    ];
+                    fputcsv($file, $writeData);
+            }
+            rewind($file);
+            $csv = str_replace(PHP_EOL, "\r\n", stream_get_contents($file));
+            $csv = mb_convert_encoding($csv, 'SJIS-win', 'UTF-8');
+            $headers = array(
+                'Content-Type' => 'text/csv',
+                'Content-Disposition' => 'attachment; filename="yanbaru_qiita.csv"',
+            );
+        }
+
+        return response($csv, 200, $headers);
     }
 }
