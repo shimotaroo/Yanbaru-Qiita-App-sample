@@ -42,9 +42,7 @@
                         </div>
                         <div class="d-flex justify-content-center">
                             <a href="{{ route('index') }}" class='btn btn-secondary text-white col-md-3 py-2 mx-1 mb-4'>戻る</a>
-                            @if (auth()->user()->id === Auth::id())
-                                <a  href="{{ route('user.edit', auth()->user()) }}" class="btn btn-success text-white col-md-3 py-2 mx-1 mb-4">編集</a>
-                            @endif
+                            <a  href="{{ route('user.edit', auth()->user()) }}" class="btn btn-success text-white col-md-3 py-2 mx-1 mb-4">編集</a>
                         </div>
                     </div>
                 </div>
