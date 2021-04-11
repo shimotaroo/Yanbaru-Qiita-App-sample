@@ -58,8 +58,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        $articles = Article::where('user_id', $user->id)->get();
-        return view('user.mypage', compact('user', 'articles'));
+        return view('user.mypage');
     }
 
     /**
