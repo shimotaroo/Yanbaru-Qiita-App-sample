@@ -25,32 +25,32 @@
                         <div class="row mb-2">
                             <p class="col-md-4 text-md-right">{{ __('Name') }}</p>
                             <p class="col-md-6">
-                                {{ $user->name }}
+                                {{ auth()->user()->name }}
                             </p>
                         </div>
                         <div class="row mb-2">
                             <p class="col-md-4 text-md-right">{{ __('Term') }}</p>
                             <p class="col-md-6">
-                                {{ $user->term }}期生
+                                {{ auth()->user()->term }}期生
                             </p>
                         </div>
                         <div class="row mb-2">
                             <p class="col-md-4 text-md-right">{{ __('Email') }}</p>
                             <p class="col-md-6">
-                                {{ $user->email }}
+                                {{ auth()->user()->email }}
                             </p>
                         </div>
                         <div class="d-flex justify-content-center">
                             <a href="{{ route('index') }}" class='btn btn-secondary text-white col-md-3 py-2 mx-1 mb-4'>戻る</a>
-                            @if ($user->id === Auth::id())
-                                <a  href="{{ route('user.edit', $user) }}" class="btn btn-success text-white col-md-3 py-2 mx-1 mb-4">編集</a>
+                            @if (auth()->user()->id === Auth::id())
+                                <a  href="{{ route('user.edit', auth()->user()) }}" class="btn btn-success text-white col-md-3 py-2 mx-1 mb-4">編集</a>
                             @endif
                         </div>
                     </div>
                 </div>
             </div>
             <h3 class="text-center mb-3">自分の投稿</h3>
-            @foreach ($articles as $article)
+            @foreach (auth()->user()->articles as $article)
                 <div class="card mb-5">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <div>
