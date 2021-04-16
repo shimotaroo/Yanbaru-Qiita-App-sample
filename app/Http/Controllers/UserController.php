@@ -44,7 +44,6 @@ class UserController extends Controller
     /**
      * マイページ画面表示
      *
-     * @param  App\User  $user
      * @return \Illuminate\Http\Response
      */
     public function show()
