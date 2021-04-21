@@ -43,4 +43,7 @@ Auth::routes();
  * ユーザー
  */
 //CRUD用
-Route::resource('user', 'UserController')->only(['edit', 'update', 'show'])->middleware('auth');
+Route::group(['middleware' => 'auth'], function () {
+    Route::resource('user', 'UserController')->only(['edit', 'update']);
+    Route::get('/user', 'UserController@show')->name('user.show');
+});

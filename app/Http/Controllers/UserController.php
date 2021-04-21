@@ -11,15 +11,6 @@ use Illuminate\Support\Facades\DB;
 class UserController extends Controller
 {
     /**
-     * コンストラクタ定義
-     * ポリシーを使用できるようにする
-     */
-    public function __construct()
-    {
-        $this->authorizeResource(User::class, 'user');
-    }
-
-    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -53,15 +44,14 @@ class UserController extends Controller
     /**
      * マイページ画面表示
      *
-     * @param  App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show()
     {
         return view('user.mypage');
     }
 
-    /**
+ /**
      * ユーザー情報編集画面表示
      *
      * @param  App\User  $user
@@ -69,9 +59,9 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+        $this->authorize('update', $user);
         return view('user.edit', compact('user'));
     }
-
     /**
      * ユーザー情報編集処理
      *
@@ -81,10 +71,10 @@ class UserController extends Controller
      */
     public function update(UserRequest $request, User $user)
     {
+        $this->authorize('update', $user);
         DB::transaction(function () use ($user, $request) {
-            $user->fill($request->all())->save();            
+            $user->fill($request->all())->save();
         });
-
         return redirect()->route('user.show', $user)->with('flashMsg',  'ユーザー情報を編集しました');
     }
 
