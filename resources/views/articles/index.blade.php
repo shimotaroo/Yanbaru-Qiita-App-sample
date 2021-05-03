@@ -30,7 +30,7 @@
                         <div class="card mb-5">
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <div class="font-weight-bold">
-                                    <i class="fas fa-user-edit mr-2"></i>{{ $article->user_name }}
+                                    <i class="fas fa-user-edit mr-2"></i>{{ $article->user->name }}
                                 </div>
                                 <div class="d-flex justify-content-around">
                                     @if ($article->user_id === Auth::id())
@@ -47,7 +47,7 @@
                                 <div class="row">
                                     <p class="col-md-4 text-md-right">{{ __('Term') }}</p>
                                     <p class="col-md-6">
-                                        {{ $article->user_term }}期生
+                                        {{ $article->user->term }}期生
                                     </p>
                                 </div>
                                 <div class="row">

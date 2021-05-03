@@ -45,19 +45,15 @@ class Article extends Model
     }
 
     /**
-     * 全件表示
+     * 全件取得
      * 
      * @return Illuminate\Pagination\LengthAwarePaginator
      */
     public function getAll()
     {
-        $articles = DB::table('articles as a')
-            ->select('a.id', 'a.user_id', 'users.name as user_name', 'users.term as user_term', 'a.title', 'a.url', 'a.created_at')
-            ->join('users', 'a.user_id', '=', 'users.id')
-            ->join('categories', 'a.category_id', '=', 'categories.id')
-            ->where('a.deleted_at', self::NOT_DELETED)
-            ->orderBy('a.created_at','desc')
-            ->orderBy('a.id', 'asc')
+        $articles = self::with(['user'])
+            ->orderBy('created_at','desc')
+            ->orderBy('id', 'asc')
             ->paginate(10);
 
         return $articles;
