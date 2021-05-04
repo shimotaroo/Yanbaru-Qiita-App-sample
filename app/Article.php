@@ -51,7 +51,7 @@ class Article extends Model
      */
     public function getAll()
     {
-        $articles = self::with(['user'])
+        $articles = self::with('user')
             ->orderBy('created_at','desc')
             ->orderBy('id', 'asc')
             ->paginate(10);
