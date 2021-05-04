@@ -17,13 +17,14 @@ Route::get('/', 'ArticleController@index')->name('index');
 /**
  * 記事
  */
+// CSVダウンロード（TODO：Controllerは分けるべき）
+Route::get('/articles/csv_download', 'ArticleController@downloadCsv')->name('articles.csv_download');
+// 検索
+Route::get('articles/search', 'SearchArticleController@search')->name('articles.search');
 // CRUD用
 // 登録、編集、削除はログイン状態でしか使用できないようにする
-Route::get('/articles/csv_download', 'ArticleController@downloadCsv')->name('articles.csv_download');
 Route::resource('articles', 'ArticleController')->only(['create', 'edit', 'store', 'update', 'destroy'])->middleware('auth');
 Route::resource('articles', 'ArticleController')->only(['show']);
-// 検索
-Route::get('articles.search', 'ArticleController@search')->name('articles.search');
 
 /**
  * コメント
