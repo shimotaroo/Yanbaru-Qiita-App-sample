@@ -17,8 +17,7 @@ Route::get('/', 'ArticleController@index')->name('index');
 /**
  * 記事
  */
-// CSVダウンロード（TODO：Controllerは分けるべき）
-Route::get('/articles/csv_download', 'ArticleController@downloadCsv')->name('articles.csv_download');
+
 // 検索
 Route::get('articles/search', 'SearchArticleController@search')->name('articles.search');
 // CRUD用
@@ -47,4 +46,11 @@ Auth::routes();
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('user', 'UserController')->only(['edit', 'update']);
     Route::get('/user', 'UserController@show')->name('user.show');
+});
+
+/**
+ * CSVダウンロード
+ */
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('csv_download', 'downloadCsvController@downloadCsv')->name('csv_download');
 });
