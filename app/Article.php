@@ -67,32 +67,22 @@ class Article extends Model
      */
     public function searchByInputParameters($parametersForSearch)
     {
-        $query = DB::table('articles as a')
-            ->select('a.id', 'a.user_id', 'users.name as user_name', 'users.term as user_term', 'a.title', 'a.url', 'a.created_at')
-            ->join('users', 'a.user_id', '=', 'users.id')
-            ->join('categories', 'a.category_id', '=', 'categories.id')
-            ->where('a.deleted_at', self::NOT_DELETED);
-
-        if(!empty($parametersForSearch['term'])) {
-            $query->where('users.term', $parametersForSearch['term']);
-        }
-        if(!empty($parametersForSearch['category'])) {
-            $query->where('categories.id', $parametersForSearch['category']);
-        }
-        if(!empty($parametersForSearch['word'])) {
-            $query->where('a.title', 'like', '%' . $this->escapeLike($parametersForSearch['word']) . '%');
-        }
-
-        return $query->orderBy('a.created_at','desc')
-            ->orderBy('a.id', 'asc')
+        $searchedArticles = self::with('user')
+            ->when($parametersForSearch['term'], function($q) use($parametersForSearch){
+                return $q->whereHas('user', function($q) use($parametersForSearch) {
+                    $q->where('term', $parametersForSearch['term']);
+                });
+            })
+            ->when($parametersForSearch['category'], function($q) use($parametersForSearch) {
+                return $q->where('category_id', $parametersForSearch['category']);
+            })
+            ->when($parametersForSearch['word'], function($q) use($parametersForSearch) {
+                return $q->where('title', 'like', '%' . $parametersForSearch['word'] . '%');
+            })
+            ->orderBy('created_at','desc')
+            ->orderBy('id', 'asc')
             ->paginate(10);
-    }
-
-    /**
-     * str_replaceでセキュリティ対策
-     */
-    public static function escapeLike($str)
-    {
-        return str_replace(['\\', '%', '_'], ['\\\\', '\%', '\_'], $str);
+        
+        return $searchedArticles;
     }
 }
