@@ -46,7 +46,7 @@ class Article extends Model
 
     /**
      * 全件取得
-     * 
+     *
      * @return Illuminate\Pagination\LengthAwarePaginator
      */
     public function getAll()
@@ -61,7 +61,7 @@ class Article extends Model
 
     /**
      * 検索フォームに入力されたパラメータを元に検索をかける
-     * 
+     *
      * @param array $parametersForSearch
      * @return Illuminate\Pagination\LengthAwarePaginator
      */
@@ -77,12 +77,52 @@ class Article extends Model
                 return $q->where('category_id', $parametersForSearch['category']);
             })
             ->when($parametersForSearch['word'], function($q) use($parametersForSearch) {
-                return $q->where('title', 'like', '%' . $parametersForSearch['word'] . '%');
+                return $q->where('title', 'like', '%' . $this->escapeLike($parametersForSearch['word']) . '%');
             })
             ->orderBy('created_at','desc')
             ->orderBy('id', 'asc')
             ->paginate(10);
-        
+
         return $searchedArticles;
     }
+
+    /**
+     * str_replaceでセキュリティ対策
+     */
+    public static function escapeLike($str)
+    {
+        return str_replace(['\\', '%', '_'], ['\\\\', '\%', '\_'], $str);
+    }
+
+    /**
+     * 検索機能のQueryBuilder版
+     * ORMを使うとwhereHasメソッドを使うことになるけどサブクエリが発生してパフォーマンスが悪くなるみたい
+     * 参考：EloquentのwhereHasメソッドは辛い（https://qiita.com/hisash/items/40532808e61ed3210a6a）
+     *
+     * @param array $parametersForSearch
+     * @return Illuminate\Pagination\LengthAwarePaginator
+     */
+    // public function searchByInputParameters($parametersForSearch)
+    // {
+    //     $query = DB::table('articles as a')
+    //     ->select('a.id', 'a.user_id', 'users.name as user_name', 'users.term as user_term', 'a.title', 'a.url', 'a.created_at')
+    //     ->join('users', 'a.user_id', '=', 'users.id')
+    //     ->join('categories', 'a.category_id', '=', 'categories.id')
+    //     ->where('a.deleted_at', self::NOT_DELETED);
+
+    //     if(!empty($parametersForSearch['term'])) {
+    //         $query->where('users.term', $parametersForSearch['term']);
+    //     }
+    //     if(!empty($parametersForSearch['category'])) {
+    //         $query->where('categories.id', $parametersForSearch['category']);
+    //     }
+    //     if(!empty($parametersForSearch['word'])) {
+    //         $query->where('a.title', 'like', '%' . $this->escapeLike($parametersForSearch['word']) . '%');
+    //     }
+
+    //     return $query->orderBy('a.created_at','desc')
+    //         ->orderBy('a.id', 'asc')
+    //         ->paginate(10);
+    // }
+
 }
