@@ -4,11 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 class Article extends Model
 {
     // 論理削除するためのトレイト
     use SoftDeletes;
+
+    const NOT_DELETED = NULL;
 
     protected $fillable = [
         'title',
@@ -33,28 +36,53 @@ class Article extends Model
         return $this->belongsTo('App\Category');
     }
 
-    /**
-     * 絞り込み検索時にDBからデータを取得するqueryを作成
-     *
-     * @return Illuminate\Database\Eloquent\Builder
+    /*
+     * Articleモデルを起点に記事にコメントしたUserモデルを取得する
      */
-    public function getBySearchParameters($inputTerm, $inputCategory, $inputWord)
+    public function comments()
     {
-        $query = $this->query();
-        $query->join('users', 'articles.user_id', 'users.id')
-            ->join('categories', 'articles.category_id', 'categories.id');
+        return $this->belongsToMany('App\User', 'comments')->withPivot(['id','comment'])->withTimestamps();
+    }
 
-        $query->when($inputTerm, function($query) use ($inputTerm) {
-            return $query->where('users.term', $inputTerm);
-        });
-        $query->when($inputCategory, function($query) use ($inputCategory) {
-            $query->where('categories.name', $inputCategory);
-        });
-        $query->when($inputWord, function($query) use ($inputWord) {
-            $query->where('articles.title', 'like', '%' . $this->escapeLike($inputWord) . '%');
-        });
+    /**
+     * 全件取得
+     *
+     * @return Illuminate\Pagination\LengthAwarePaginator
+     */
+    public function getAll()
+    {
+        $articles = self::with('user')
+            ->orderBy('created_at','desc')
+            ->orderBy('id', 'asc')
+            ->paginate(10);
 
-        $searchedArticles = $query->orderBy('articles.created_at','desc');
+        return $articles;
+    }
+
+    /**
+     * 検索フォームに入力されたパラメータを元に検索をかける
+     *
+     * @param array $parametersForSearch
+     * @return Illuminate\Pagination\LengthAwarePaginator
+     */
+    public function searchByInputParameters($parametersForSearch)
+    {
+        $searchedArticles = self::with('user')
+            ->when($parametersForSearch['term'], function($q) use($parametersForSearch){
+                return $q->whereHas('user', function($q) use($parametersForSearch) {
+                    $q->where('term', $parametersForSearch['term']);
+                });
+            })
+            ->when($parametersForSearch['category'], function($q) use($parametersForSearch) {
+                return $q->where('category_id', $parametersForSearch['category']);
+            })
+            ->when($parametersForSearch['word'], function($q) use($parametersForSearch) {
+                return $q->where('title', 'like', '%' . $this->escapeLike($parametersForSearch['word']) . '%');
+            })
+            ->orderBy('created_at','desc')
+            ->orderBy('id', 'asc')
+            ->paginate(10);
+
         return $searchedArticles;
     }
 
@@ -66,11 +94,35 @@ class Article extends Model
         return str_replace(['\\', '%', '_'], ['\\\\', '\%', '\_'], $str);
     }
 
-    /*
-     * Articleモデルを起点に記事にコメントしたUserモデルを取得する
+    /**
+     * 検索機能のQueryBuilder版
+     * ORMを使うとwhereHasメソッドを使うことになるけどサブクエリが発生してパフォーマンスが悪くなるみたい
+     * 参考：EloquentのwhereHasメソッドは辛い（https://qiita.com/hisash/items/40532808e61ed3210a6a）
+     *
+     * @param array $parametersForSearch
+     * @return Illuminate\Pagination\LengthAwarePaginator
      */
-    public function comments()
-    {
-        return $this->belongsToMany('App\User', 'comments')->withPivot(['id','comment'])->withTimestamps();
-    }
+    // public function searchByInputParameters($parametersForSearch)
+    // {
+    //     $query = DB::table('articles as a')
+    //     ->select('a.id', 'a.user_id', 'users.name as user_name', 'users.term as user_term', 'a.title', 'a.url', 'a.created_at')
+    //     ->join('users', 'a.user_id', '=', 'users.id')
+    //     ->join('categories', 'a.category_id', '=', 'categories.id')
+    //     ->where('a.deleted_at', self::NOT_DELETED);
+
+    //     if(!empty($parametersForSearch['term'])) {
+    //         $query->where('users.term', $parametersForSearch['term']);
+    //     }
+    //     if(!empty($parametersForSearch['category'])) {
+    //         $query->where('categories.id', $parametersForSearch['category']);
+    //     }
+    //     if(!empty($parametersForSearch['word'])) {
+    //         $query->where('a.title', 'like', '%' . $this->escapeLike($parametersForSearch['word']) . '%');
+    //     }
+
+    //     return $query->orderBy('a.created_at','desc')
+    //         ->orderBy('a.id', 'asc')
+    //         ->paginate(10);
+    // }
+
 }

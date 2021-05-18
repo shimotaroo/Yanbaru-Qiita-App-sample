@@ -17,10 +17,11 @@ Route::get('/', 'ArticleController@index')->name('index');
 /**
  * 記事
  */
+
+// 検索
+Route::get('articles/search', 'SearchArticleController@search')->name('articles.search');
 // CRUD用
 // 登録、編集、削除はログイン状態でしか使用できないようにする
-Route::get('/articles/csv_download', 'ArticleController@downloadCsv')->name('articles.csv_download');
-Route::get('/articles/search', 'ArticleController@search')->name('articles.search');
 Route::resource('articles', 'ArticleController')->only(['create', 'edit', 'store', 'update', 'destroy'])->middleware('auth');
 Route::resource('articles', 'ArticleController')->only(['show']);
 
@@ -42,4 +43,14 @@ Auth::routes();
  * ユーザー
  */
 //CRUD用
-Route::resource('user', 'UserController')->only(['edit', 'update', 'show'])->middleware('auth');
+Route::group(['middleware' => 'auth'], function () {
+    Route::resource('user', 'UserController')->only(['edit', 'update']);
+    Route::get('/user', 'UserController@show')->name('user.show');
+});
+
+/**
+ * CSVダウンロード
+ */
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('csv_download', 'downloadCsvController@downloadCsv')->name('csv_download');
+});

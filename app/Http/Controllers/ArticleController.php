@@ -5,22 +5,29 @@ namespace App\Http\Controllers;
 use App\Article;
 use App\Category;
 use App\Http\Requests\ArticleRequest;
-use App\User;
-use Facade\FlareClient\Http\Response;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ArticleController extends Controller
 {
+    /** @var Article */
+    private $article;
+
+    /** @var Category */
+    private $category;
+
     /**
      * コンストラクタ定義
      * ポリシーを使用できるようにする
+     * Articleクラスを$this->articleで呼び出せるようにする（各メソッドでの定義を不要にする）
+     * 
+     * @param  App\Article  $article
      */
     public function __construct()
     {
         $this->authorizeResource(Article::class, 'article');
+        $this->article = new Article();
+        $this->category = new Category();
     }
 
     /**
@@ -30,9 +37,8 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $category = new Category();
-        $categoryForSelectBox = $category->getAll();
-        $articles = Article::with('user', 'comments')->orderBy('created_at', 'desc')->paginate(10);
+        $categoryForSelectBox = $this->category->getAll();
+        $articles = $this->article->getAll();
         return view('articles.index', compact('articles', 'categoryForSelectBox'));
     }
 
@@ -43,8 +49,7 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        $category = new Category();
-        $categoryForRadioButton = $category->getAll();
+        $categoryForRadioButton = $this->category->getAll();
         return view('articles.create', compact('categoryForRadioButton'));
     }
 
@@ -93,8 +98,7 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
-        $category = new Category();
-        $categoryForRadioButton = $category->getAll();
+        $categoryForRadioButton = $this->category->getAll();
 
         return view('articles.edit', compact(['article', 'categoryForRadioButton']));
     }
@@ -131,64 +135,5 @@ class ArticleController extends Controller
             return $article;
         });
         return redirect()->route('index')->with('flashMsg',  '記事を削除しました');;
-    }
-
-    /**
-     *  検索結果画面表示
-     * 
-     * @param  App\Article  $article
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function search(Article $article, Request $request)
-    {
-        $inputTerm = $request->term;
-        $inputCategory = $request->category;
-        $inputWord = $request->word;
-
-        $category = new Category();
-        $categoryForSelectBox= $category->getAll();
-
-        $articles = $article->getBySearchParameters($inputTerm, $inputCategory, $inputWord)->paginate(10);
-        return view('articles.index', compact('inputTerm', 'inputCategory', 'inputWord', 'articles', 'categoryForSelectBox'));
-    }
-
-    /** CSVダウンロード
-     * 
-     * @return \Illuminate\Http\Response
-     */
-    public function downloadCsv()
-    {
-        $articles = Article::with('user', 'category')->orderBy('created_at', 'desc')->get()->toArray();
-        $csvHeader = [
-            '名前',
-            'カテゴリー',
-            'タイトル',
-            '概要',
-            'URL'
-        ];
-        $file = fopen('php://temp', 'r+b');
-        if ($file) {
-            fputcsv($file, $csvHeader);
-            foreach ($articles as $article) {
-                    $writeData = [
-                        $article['user']['name'],
-                        $article['category']['name'],
-                        $article['title'],
-                        $article['summary'],
-                        $article['url'],
-                    ];
-                    fputcsv($file, $writeData);
-            }
-            rewind($file);
-            $csv = str_replace(PHP_EOL, "\r\n", stream_get_contents($file));
-            $csv = mb_convert_encoding($csv, 'SJIS-win', 'UTF-8');
-            $headers = array(
-                'Content-Type' => 'text/csv',
-                'Content-Disposition' => 'attachment; filename="yanbaru_qiita.csv"',
-            );
-        }
-        dd(response($csv, 200, $headers));
-        return response($csv, 200, $headers);
     }
 }

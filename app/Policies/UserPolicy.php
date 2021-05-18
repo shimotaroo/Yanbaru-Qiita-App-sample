@@ -22,7 +22,6 @@ class UserPolicy
 
     /**
      * Determine whether the user can view the model.
-     * マイページ画面
      *
      * @param  \App\User  $user
      * @param  \App\User  $model
@@ -30,7 +29,7 @@ class UserPolicy
      */
     public function view(User $user, User $model)
     {
-        return $user->id === $model->id;
+        //
     }
 
     /**

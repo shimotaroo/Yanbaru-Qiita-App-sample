@@ -124,6 +124,176 @@ class ArticlesTableSeeder extends Seeder
                 'updated_at' => now(),
                 'deleted_at' => NULL
             ],
+            [
+                'user_id' => '4',
+                'title' => '【Laravel カート機能実装入門】〜前半〜 sessionを使用したカート機能実装の完全解説!!',
+                'category_id' => '1',
+                'summary' => 'セッションを扱うときに役立つ方法を説明しています。',
+                'url' => 'https://qiita.com/yoshitaro218/items/17ffde373038e4ed3664',
+                'created_at' => now(),
+                'updated_at' => now(),
+                'deleted_at' => NULL
+            ],
+            [
+                'user_id' => '4',
+                'title' => '【Laravel カート機能実装入門】〜前半〜 sessionを使用したカート機能実装の完全解説!!',
+                'category_id' => '1',
+                'summary' => 'セッションを扱うときに役立つ方法を説明しています。',
+                'url' => 'https://qiita.com/yoshitaro218/items/17ffde373038e4ed3664',
+                'created_at' => now(),
+                'updated_at' => now(),
+                'deleted_at' => NULL
+            ],
+            [
+                'user_id' => '4',
+                'title' => '【Laravel カート機能実装入門】〜前半〜 sessionを使用したカート機能実装の完全解説!!',
+                'category_id' => '1',
+                'summary' => 'セッションを扱うときに役立つ方法を説明しています。',
+                'url' => 'https://qiita.com/yoshitaro218/items/17ffde373038e4ed3664',
+                'created_at' => now(),
+                'updated_at' => now(),
+                'deleted_at' => NULL
+            ],
+            [
+                'user_id' => '4',
+                'title' => '【Laravel カート機能実装入門】〜前半〜 sessionを使用したカート機能実装の完全解説!!',
+                'category_id' => '1',
+                'summary' => 'セッションを扱うときに役立つ方法を説明しています。',
+                'url' => 'https://qiita.com/yoshitaro218/items/17ffde373038e4ed3664',
+                'created_at' => now(),
+                'updated_at' => now(),
+                'deleted_at' => NULL
+            ],
+            [
+                'user_id' => '4',
+                'title' => '【Laravel カート機能実装入門】〜前半〜 sessionを使用したカート機能実装の完全解説!!',
+                'category_id' => '1',
+                'summary' => 'セッションを扱うときに役立つ方法を説明しています。',
+                'url' => 'https://qiita.com/yoshitaro218/items/17ffde373038e4ed3664',
+                'created_at' => now(),
+                'updated_at' => now(),
+                'deleted_at' => NULL
+            ],
+            [
+                'user_id' => '4',
+                'title' => '【Laravel カート機能実装入門】〜前半〜 sessionを使用したカート機能実装の完全解説!!',
+                'category_id' => '1',
+                'summary' => 'セッションを扱うときに役立つ方法を説明しています。',
+                'url' => 'https://qiita.com/yoshitaro218/items/17ffde373038e4ed3664',
+                'created_at' => now(),
+                'updated_at' => now(),
+                'deleted_at' => NULL
+            ],
+            [
+                'user_id' => '4',
+                'title' => '【Laravel カート機能実装入門】〜前半〜 sessionを使用したカート機能実装の完全解説!!',
+                'category_id' => '1',
+                'summary' => 'セッションを扱うときに役立つ方法を説明しています。',
+                'url' => 'https://qiita.com/yoshitaro218/items/17ffde373038e4ed3664',
+                'created_at' => now(),
+                'updated_at' => now(),
+                'deleted_at' => NULL
+            ],
+            [
+                'user_id' => '4',
+                'title' => '【Laravel カート機能実装入門】〜前半〜 sessionを使用したカート機能実装の完全解説!!',
+                'category_id' => '1',
+                'summary' => 'セッションを扱うときに役立つ方法を説明しています。',
+                'url' => 'https://qiita.com/yoshitaro218/items/17ffde373038e4ed3664',
+                'created_at' => now(),
+                'updated_at' => now(),
+                'deleted_at' => NULL
+            ],
+            [
+                'user_id' => '4',
+                'title' => '【Laravel カート機能実装入門】〜前半〜 sessionを使用したカート機能実装の完全解説!!',
+                'category_id' => '1',
+                'summary' => 'セッションを扱うときに役立つ方法を説明しています。',
+                'url' => 'https://qiita.com/yoshitaro218/items/17ffde373038e4ed3664',
+                'created_at' => now(),
+                'updated_at' => now(),
+                'deleted_at' => NULL
+            ],
+            [
+                'user_id' => '4',
+                'title' => '【Laravel カート機能実装入門】〜前半〜 sessionを使用したカート機能実装の完全解説!!',
+                'category_id' => '1',
+                'summary' => 'セッションを扱うときに役立つ方法を説明しています。',
+                'url' => 'https://qiita.com/yoshitaro218/items/17ffde373038e4ed3664',
+                'created_at' => now(),
+                'updated_at' => now(),
+                'deleted_at' => NULL
+            ],
+            [
+                'user_id' => '4',
+                'title' => '【Laravel カート機能実装入門】〜前半〜 sessionを使用したカート機能実装の完全解説!!',
+                'category_id' => '1',
+                'summary' => 'セッションを扱うときに役立つ方法を説明しています。',
+                'url' => 'https://qiita.com/yoshitaro218/items/17ffde373038e4ed3664',
+                'created_at' => now(),
+                'updated_at' => now(),
+                'deleted_at' => NULL
+            ],
+            [
+                'user_id' => '4',
+                'title' => '【Laravel カート機能実装入門】〜前半〜 sessionを使用したカート機能実装の完全解説!!',
+                'category_id' => '1',
+                'summary' => 'セッションを扱うときに役立つ方法を説明しています。',
+                'url' => 'https://qiita.com/yoshitaro218/items/17ffde373038e4ed3664',
+                'created_at' => now(),
+                'updated_at' => now(),
+                'deleted_at' => NULL
+            ],
+            [
+                'user_id' => '4',
+                'title' => '【Laravel カート機能実装入門】〜前半〜 sessionを使用したカート機能実装の完全解説!!',
+                'category_id' => '1',
+                'summary' => 'セッションを扱うときに役立つ方法を説明しています。',
+                'url' => 'https://qiita.com/yoshitaro218/items/17ffde373038e4ed3664',
+                'created_at' => now(),
+                'updated_at' => now(),
+                'deleted_at' => NULL
+            ],
+            [
+                'user_id' => '4',
+                'title' => '【Laravel カート機能実装入門】〜前半〜 sessionを使用したカート機能実装の完全解説!!',
+                'category_id' => '1',
+                'summary' => 'セッションを扱うときに役立つ方法を説明しています。',
+                'url' => 'https://qiita.com/yoshitaro218/items/17ffde373038e4ed3664',
+                'created_at' => now(),
+                'updated_at' => now(),
+                'deleted_at' => NULL
+            ],
+            [
+                'user_id' => '4',
+                'title' => '【Laravel カート機能実装入門】〜前半〜 sessionを使用したカート機能実装の完全解説!!',
+                'category_id' => '1',
+                'summary' => 'セッションを扱うときに役立つ方法を説明しています。',
+                'url' => 'https://qiita.com/yoshitaro218/items/17ffde373038e4ed3664',
+                'created_at' => now(),
+                'updated_at' => now(),
+                'deleted_at' => NULL
+            ],
+            [
+                'user_id' => '4',
+                'title' => '【Laravel カート機能実装入門】〜前半〜 sessionを使用したカート機能実装の完全解説!!',
+                'category_id' => '1',
+                'summary' => 'セッションを扱うときに役立つ方法を説明しています。',
+                'url' => 'https://qiita.com/yoshitaro218/items/17ffde373038e4ed3664',
+                'created_at' => now(),
+                'updated_at' => now(),
+                'deleted_at' => NULL
+            ],
+            [
+                'user_id' => '4',
+                'title' => '【Laravel カート機能実装入門】〜前半〜 sessionを使用したカート機能実装の完全解説!!',
+                'category_id' => '1',
+                'summary' => 'セッションを扱うときに役立つ方法を説明しています。',
+                'url' => 'https://qiita.com/yoshitaro218/items/17ffde373038e4ed3664',
+                'created_at' => now(),
+                'updated_at' => now(),
+                'deleted_at' => NULL
+            ],
         ]);
     }
 }
