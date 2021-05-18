@@ -41,35 +41,35 @@ class SearchArticleController extends Controller
         // 検索用パラメータ
         $parametersForSearch = $request->all();
 
-        // GETパラメータのkeyに不正なものがないかチェック
-        // （例）?test=の場合は404を返す
-        foreach ($parametersForSearch as $key => $value) {
-            if (!in_array($key, ['term', 'category', 'word'])) {
-                // MEMO:404を返すようにしているけど400の方が良い
-                abort(404);
-            }
-        }
+        // // GETパラメータのkeyに不正なものがないかチェック
+        // // （例）?test=の場合は404を返す
+        // foreach ($parametersForSearch as $key => $value) {
+        //     if (!in_array($key, ['term', 'category', 'word'])) {
+        //         // MEMO:404を返すようにしているけど400の方が良い
+        //         abort(404);
+        //     }
+        // }
 
-        // GETパラメータのvalueに不正な値がないかチェックするためにint型にキャストする（string型だとチェックできない）
-        if (!is_null($parametersForSearch['term'])) {
-            $parametersForSearch['term'] = (int) $request->term;
-        }
-        if (!is_null($parametersForSearch['category'])) {
-            $parametersForSearch['category'] = (int) $request->category;
-        }
+        // // GETパラメータのvalueに不正な値がないかチェックするためにint型にキャストする（string型だとチェックできない）
+        // if (!is_null($parametersForSearch['term'])) {
+        //     $parametersForSearch['term'] = (int) $request->term;
+        // }
+        // if (!is_null($parametersForSearch['category'])) {
+        //     $parametersForSearch['category'] = (int) $request->category;
+        // }
 
-        $maxCategoryId = $this->category->max('id');
+        // $maxCategoryId = $this->category->max('id');
 
-        $validator = Validator::make($parametersForSearch, [
-            'term' => ['numeric', 'max:20', 'nullable'],
-            'category' => ['numeric', 'max:' . $maxCategoryId, 'nullable'],
-            'word' => ['string', 'nullable', 'max:30'],
-        ]);
+        // $validator = Validator::make($parametersForSearch, [
+        //     'term' => ['numeric', 'max:20', 'nullable'],
+        //     'category' => ['numeric', 'max:' . $maxCategoryId, 'nullable'],
+        //     'word' => ['string', 'nullable', 'max:30'],
+        // ]);
 
-        if ($validator->fails()) {
-            // MEMO:404を返すようにしているけど400の方が良い
-            abort(404);
-        }
+        // if ($validator->fails()) {
+        //     // MEMO:404を返すようにしているけど400の方が良い
+        //     abort(404);
+        // }
 
         $articles = $this->article->searchByInputParameters($parametersForSearch);
 
