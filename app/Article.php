@@ -59,12 +59,12 @@ class Article extends Model
         return $articles;
     }
 
-    /**
-     * 検索フォームに入力されたパラメータを元に検索をかける
-     *
-     * @param array $parametersForSearch
-     * @return Illuminate\Pagination\LengthAwarePaginator
-     */
+    // /**
+    //  * 検索フォームに入力されたパラメータを元に検索をかける
+    //  *
+    //  * @param array $parametersForSearch
+    //  * @return Illuminate\Pagination\LengthAwarePaginator
+    //  */
     // public function searchByInputParameters($parametersForSearch)
     // {
     //     $searchedArticles = self::with('user')
